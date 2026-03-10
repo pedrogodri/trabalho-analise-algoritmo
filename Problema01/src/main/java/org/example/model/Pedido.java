@@ -2,7 +2,6 @@ package org.example.model;
 
 import org.example.model.enums.TipoEntrega;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Pedido {
