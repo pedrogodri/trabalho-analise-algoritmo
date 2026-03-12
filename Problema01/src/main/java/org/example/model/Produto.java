@@ -10,4 +10,16 @@ public class Produto {
         this.valor = valor;
         this.peso = peso;
     }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public float getValor() {
+        return valor;
+    }
+
+    public float getPeso() {
+        return peso;
+    }
 }
