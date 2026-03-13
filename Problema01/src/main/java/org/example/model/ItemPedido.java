@@ -1,33 +1,36 @@
 package org.example.model;
 
-public class ItemPedido {
-    private Produto produto;
-    private int quantidade;
+import org.example.model.vo.Quantidade;
 
-    public ItemPedido(Produto produto, int quantidade) {
+/**
+ * Associa um {@link Produto} a uma {@link org.example.model.vo.Quantidade} dentro do {@link Carrinho}.
+ *
+ * <p>Centraliza o cálculo de subtotal e peso total do item,
+ * evitando duplicação dessa lógica nos consumidores.</p>
+ */
+public class ItemPedido {
+
+    private final Produto produto;
+    private final Quantidade quantidade;
+
+    public ItemPedido(Produto produto, Quantidade quantidade) {
         this.produto = produto;
         this.quantidade = quantidade;
     }
 
-    public Produto getProduto() {
-        return produto;
-    }
-
-    public int getQuantidade() {
-        return quantidade;
-    }
-
+    /** @return preço unitário multiplicado pela quantidade */
     public float getSubtotal() {
-        return produto.getValor() * quantidade;
+        return produto.getValor() * quantidade.valor();
     }
 
+    /** @return peso unitário do produto multiplicado pela quantidade, em quilogramas */
     public float getPesoTotal() {
-        return produto.getPeso() * quantidade;
+        return produto.getPeso() * quantidade.valor();
     }
 
     @Override
     public String toString() {
-        return String.format("%s | Qtd: %d | Subtotal: R$ %.2f",
+        return String.format("%s | Qtd: %s | Subtotal: R$ %.2f",
                 produto.getNome(), quantidade, getSubtotal());
     }
 }

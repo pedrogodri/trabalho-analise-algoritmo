@@ -1,0 +1,35 @@
+package org.example.model.vo;
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.example.exceptions.DadoInvalidoException;
+
+class PesoEmKgTest {
+
+    @Test
+    void deveAceitarPesoPositivo() {
+        PesoEmKg peso = new PesoEmKg(0.5f);
+        assertEquals(0.5f, peso.valor(), 0.001f);
+    }
+
+    @Test
+    void deveLancarExcecaoParaPesoZero() {
+        DadoInvalidoException excecao = assertThrows(DadoInvalidoException.class,
+                () -> new PesoEmKg(0f));
+        assertEquals("Peso do produto deve ser maior que zero", excecao.getMessage());
+    }
+
+    @Test
+    void deveLancarExcecaoParaPesoNegativo() {
+        DadoInvalidoException excecao = assertThrows(DadoInvalidoException.class,
+                () -> new PesoEmKg(-1f));
+        assertEquals("Peso do produto deve ser maior que zero", excecao.getMessage());
+    }
+
+    @Test
+    void deveAceitarPesoMuitoPequeno() {
+        assertDoesNotThrow(() -> new PesoEmKg(0.001f));
+    }
+}
