@@ -33,4 +33,16 @@ class QuantidadeTest {
     void deveAceitarQuantidadeUm() {
         assertDoesNotThrow(() -> new Quantidade(1));
     }
+
+    @Test
+    void deveFormatarToStringComoInteiro() {
+        Quantidade quantidade = new Quantidade(7);
+        assertEquals("7", quantidade.toString());
+    }
+
+    @Test
+    void deveFormatarToStringParaQuantidadeUm() {
+        Quantidade quantidade = new Quantidade(1);
+        assertEquals("1", quantidade.toString());
+    }
 }

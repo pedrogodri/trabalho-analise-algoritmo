@@ -74,6 +74,33 @@ class PedidoTest {
         assertEquals(49.50, new Pedido(carrinhoComQuantidade).calcularFrete(new SedexEntrega()), 0.01);
     }
 
+    @Test
+    void deveRetornarPesoZeroParaCarrinhoVazio() {
+        Pedido pedidoVazio = new Pedido(new Carrinho());
+        assertEquals(0.0f, pedidoVazio.pesoTotalEmKg(), 0.001f);
+    }
+
+    @Test
+    void deveRetornarValorZeroParaCarrinhoVazio() {
+        Pedido pedidoVazio = new Pedido(new Carrinho());
+        assertEquals(0.00, pedidoVazio.valorTotalProdutos(), 0.01);
+    }
+
+    @Test
+    void deveCalcularFreteRetiradaLocalZeroParaCarrinhoVazio() {
+        Pedido pedidoVazio = new Pedido(new Carrinho());
+        assertEquals(0.00, pedidoVazio.calcularFrete(new RetiradaLocalEntrega()), 0.01);
+    }
+
+    @Test
+    void deveCalcularValorTotalComVariosItensEQuantidades() {
+        // Livro A: R$50 x2 = R$100 | Livro B: R$30 x3 = R$90 => total R$190
+        Carrinho carrinhoMisto = new Carrinho();
+        carrinhoMisto.adicionar(item("Livro A", 50.00f, 0.4f, 2));
+        carrinhoMisto.adicionar(item("Livro B", 30.00f, 0.3f, 3));
+        assertEquals(190.00, new Pedido(carrinhoMisto).valorTotalProdutos(), 0.01);
+    }
+
     private static ItemPedido item(String nome, float valor, float peso, int qtd) {
         Produto produto = new Produto(new NomeProduto(nome), new ValorMonetario(valor), new PesoEmKg(peso));
         return new ItemPedido(produto, new Quantidade(qtd));

@@ -55,4 +55,16 @@ class NomeProdutoTest {
         String nomeExato = "A".repeat(100);
         assertDoesNotThrow(() -> new NomeProduto(nomeExato));
     }
+
+    @Test
+    void deveRetornarToStringIgualAoNomeInformado() {
+        NomeProduto nome = new NomeProduto("Dom Casmurro");
+        assertEquals("Dom Casmurro", nome.toString());
+    }
+
+    @Test
+    void deveRetornarNomeSemEspacosExtrasNoToString() {
+        NomeProduto nome = new NomeProduto("  Livro Trim  ");
+        assertEquals("Livro Trim", nome.toString());
+    }
 }

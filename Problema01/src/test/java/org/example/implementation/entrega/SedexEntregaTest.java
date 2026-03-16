@@ -1,11 +1,9 @@
-package org.example.entrega;
+package org.example.implementation.entrega;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.example.implementation.entrega.SedexEntrega;
 
 class SedexEntregaTest {
 
@@ -17,12 +15,12 @@ class SedexEntregaTest {
     }
 
     @Test
-    void deveRetornar12ReaisParaPesoAbaixoDe500g() {
+    void deveRetornar12Reais50ParaPesoAbaixoDe500g() {
         assertEquals(12.50, sedex.calcular(0.3f));
     }
 
     @Test
-    void deveRetornar12ReaisParaPesoExatamenteDe500g() {
+    void deveRetornar12Reais50ParaPesoExatamenteDe500g() {
         assertEquals(12.50, sedex.calcular(0.5f));
     }
 
@@ -43,7 +41,7 @@ class SedexEntregaTest {
     }
 
     @Test
-    void deveRetornar49_50ReaisParaPesoDe1Kg200g() {
+    void deveRetornar49Reais50ParaPesoDe1Kg200g() {
         // 1.2kg -> 2 grupos de 100g -> R$46,50 + R$3,00 = R$49,50
         assertEquals(49.50, sedex.calcular(1.2f), 0.01);
     }
@@ -52,6 +50,19 @@ class SedexEntregaTest {
     void deveArredondarGruposParaCimaParaPesosFracionados() {
         // 1.15kg -> ceil(1.5) = 2 grupos -> R$46,50 + R$3,00 = R$49,50
         assertEquals(49.50, sedex.calcular(1.15f), 0.01);
+    }
+
+    @Test
+    void deveCalcularFreteParaPesoMuitoAcimaDe1Kg() {
+        // 3.0kg -> 2000g acima de 1kg -> ceil(2000/100) = 20 grupos -> R$46,50 + 20*R$1,50 = R$76,50
+        assertEquals(76.50, sedex.calcular(3.0f), 0.01);
+    }
+
+    @Test
+    void naoDeveLancarExcecaoParaQualquerPeso() {
+        // Sedex não tem limite de peso
+        assertDoesNotThrow(() -> sedex.calcular(10.0f));
+        assertDoesNotThrow(() -> sedex.calcular(50.0f));
     }
 
     @Test

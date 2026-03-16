@@ -33,4 +33,16 @@ class PesoEmKgTest {
     void deveAceitarPesoMuitoPequeno() {
         assertDoesNotThrow(() -> new PesoEmKg(0.001f));
     }
+
+    @Test
+    void deveFormatarToStringComUnidade() {
+        PesoEmKg peso = new PesoEmKg(1.5f);
+        assertEquals("1.5kg", peso.toString());
+    }
+
+    @Test
+    void deveFormatarToStringParaPesoInteiro() {
+        PesoEmKg peso = new PesoEmKg(2.0f);
+        assertEquals("2.0kg", peso.toString());
+    }
 }
