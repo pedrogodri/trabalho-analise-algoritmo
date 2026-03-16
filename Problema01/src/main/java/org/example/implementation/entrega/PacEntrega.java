@@ -1,6 +1,7 @@
-package org.example.entrega;
+package org.example.implementation.entrega;
 
 import org.example.exceptions.EntregaNaoDisponivelException;
+import org.example.interfaces.IFormatoEntrega;
 
 /**
  * Estratégia de entrega via encomenda PAC (Postagem Aéreo Comercial).
@@ -12,7 +13,7 @@ import org.example.exceptions.EntregaNaoDisponivelException;
  *   <li>Acima de 2 kg → modalidade indisponível</li>
  * </ul>
  */
-public class PacEntrega implements EstrategiaEntrega {
+public class PacEntrega implements IFormatoEntrega {
 
     private static final float LIMITE_1KG = 1.0f;
     private static final float LIMITE_2KG = 2.0f;

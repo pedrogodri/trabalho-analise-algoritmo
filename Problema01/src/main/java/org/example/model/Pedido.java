@@ -1,11 +1,11 @@
 package org.example.model;
 
-import org.example.entrega.EstrategiaEntrega;
+import org.example.interfaces.IFormatoEntrega;
 
 /**
  * Representa um pedido da livraria composto pelos itens do {@link Carrinho}.
  *
- * <p>Delega o cálculo de frete à {@link EstrategiaEntrega} fornecida,
+ * <p>Delega o cálculo de frete à {@link EntregaStrategy} fornecida,
  * sem depender de qual modalidade está sendo usada (Strategy Pattern).</p>
  */
 public class Pedido {
@@ -45,7 +45,7 @@ public class Pedido {
      * @throws org.example.exceptions.EntregaNaoDisponivelException se a estratégia
      *         não aceitar o peso do pedido
      */
-    public double calcularFrete(EstrategiaEntrega estrategia) {
+    public double calcularFrete(IFormatoEntrega estrategia) {
         return estrategia.calcular(pesoTotalEmKg());
     }
 }

@@ -1,4 +1,6 @@
-package org.example.entrega;
+package org.example.implementation.entrega;
+
+import org.example.interfaces.IFormatoEntrega;
 
 /**
  * Estratégia de entrega por retirada na própria loja.
@@ -6,7 +8,7 @@ package org.example.entrega;
  * <p>Não há custo de frete independentemente do peso do pedido.
  * O cliente é responsável por buscar o pedido no endereço da livraria.</p>
  */
-public class RetiradaLocalEntrega implements EstrategiaEntrega {
+public class RetiradaLocalEntrega implements IFormatoEntrega {
 
     /**
      * Retorna zero, pois a retirada no local não possui custo de frete.

@@ -4,25 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import org.example.entrega.EstrategiaEntrega;
-import org.example.entrega.PacEntrega;
-import org.example.entrega.RetiradaLocalEntrega;
-import org.example.entrega.SedexEntrega;
 import org.example.exceptions.DadoInvalidoException;
 import org.example.exceptions.EntregaNaoDisponivelException;
+import org.example.implementation.entrega.PacEntrega;
+import org.example.implementation.entrega.RetiradaLocalEntrega;
+import org.example.implementation.entrega.SedexEntrega;
+import org.example.interfaces.EntregaStrategy;
 import org.example.model.Carrinho;
 import org.example.model.EnderecoEntrega;
 import org.example.model.ItemPedido;
 import org.example.model.Pedido;
 import org.example.model.Produto;
 import org.example.model.vo.Cep;
-import org.example.model.vo.Cidade;
-import org.example.model.vo.Complemento;
 import org.example.model.vo.Estado;
-import org.example.model.vo.Logradouro;
-import org.example.model.vo.NomeCliente;
 import org.example.model.vo.NomeProduto;
-import org.example.model.vo.NumeroEndereco;
 import org.example.model.vo.PesoEmKg;
 import org.example.model.vo.Quantidade;
 import org.example.model.vo.ValorMonetario;
@@ -283,31 +278,32 @@ public class Main {
         EnderecoEntrega endereco = coletarEndereco(scanner);
 
         Pedido pedido = new Pedido(carrinho);
-        EstrategiaEntrega estrategiaSelecionada = selecionarModalidadeEntrega(scanner, pedido);
+        EntregaStrategy estrategiaSelecionada = selecionarModalidadeEntrega(scanner, pedido);
         double frete = pedido.calcularFrete(estrategiaSelecionada);
 
         exibirConfirmacaoCompra(endereco, pedido, estrategiaSelecionada, frete);
     }
 
     private static EnderecoEntrega coletarEndereco(Scanner scanner) {
-        NomeCliente nome = solicitarNomeCliente(scanner);
+        String nome = solicitarCampoObrigatorio(scanner, "Seu nome completo: ", "Nome do cliente");
         Cep cep = solicitarCep(scanner);
-        Logradouro rua = solicitarLogradouro(scanner);
-        NumeroEndereco numero = solicitarNumeroEndereco(scanner);
-        Complemento complemento = solicitarComplemento(scanner);
-        Cidade cidade = solicitarCidade(scanner);
+        String rua = solicitarCampoObrigatorio(scanner, "Rua: ", "Logradouro");
+        String numero = solicitarCampoObrigatorio(scanner, "Numero: ", "Número do endereço");
+        System.out.print("Complemento (opcional): ");
+        String complemento = scanner.nextLine();
+        String cidade = solicitarCampoObrigatorio(scanner, "Cidade: ", "Cidade");
         Estado estado = solicitarEstado(scanner);
         return new EnderecoEntrega(nome, cep, rua, numero, complemento, cidade, estado);
     }
 
-    private static NomeCliente solicitarNomeCliente(Scanner scanner) {
+    private static String solicitarCampoObrigatorio(Scanner scanner, String prompt, String nomeCampo) {
         while (true) {
-            System.out.print("Seu nome completo: ");
-            try {
-                return new NomeCliente(scanner.nextLine());
-            } catch (DadoInvalidoException e) {
-                System.out.println(e.getMessage());
+            System.out.print(prompt);
+            String valor = scanner.nextLine();
+            if (valor != null && !valor.isBlank()) {
+                return valor;
             }
+            System.out.println(nomeCampo + " não pode ser vazio");
         }
     }
 
@@ -316,44 +312,6 @@ public class Main {
             System.out.print("CEP: ");
             try {
                 return new Cep(scanner.nextLine());
-            } catch (DadoInvalidoException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    private static Logradouro solicitarLogradouro(Scanner scanner) {
-        while (true) {
-            System.out.print("Rua: ");
-            try {
-                return new Logradouro(scanner.nextLine());
-            } catch (DadoInvalidoException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    private static NumeroEndereco solicitarNumeroEndereco(Scanner scanner) {
-        while (true) {
-            System.out.print("Numero: ");
-            try {
-                return new NumeroEndereco(scanner.nextLine());
-            } catch (DadoInvalidoException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    private static Complemento solicitarComplemento(Scanner scanner) {
-        System.out.print("Complemento (opcional): ");
-        return new Complemento(scanner.nextLine());
-    }
-
-    private static Cidade solicitarCidade(Scanner scanner) {
-        while (true) {
-            System.out.print("Cidade: ");
-            try {
-                return new Cidade(scanner.nextLine());
             } catch (DadoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -372,7 +330,7 @@ public class Main {
     }
 
     private static void exibirConfirmacaoCompra(
-            EnderecoEntrega endereco, Pedido pedido, EstrategiaEntrega estrategia, double frete) {
+            EnderecoEntrega endereco, Pedido pedido, EntregaStrategy estrategia, double frete) {
 
         System.out.println("\n" + "═".repeat(50));
         System.out.println("CONFIRMACAO DE COMPRA");
@@ -391,8 +349,8 @@ public class Main {
         System.out.println("Um e-mail de confirmacao foi enviado para voce.\n");
     }
 
-    private static EstrategiaEntrega selecionarModalidadeEntrega(Scanner scanner, Pedido pedido) {
-        List<EstrategiaEntrega> todasModalidades = List.of(
+    private static EntregaStrategy selecionarModalidadeEntrega(Scanner scanner, Pedido pedido) {
+        List<EntregaStrategy> todasModalidades = List.of(
                 new PacEntrega(),
                 new SedexEntrega(),
                 new RetiradaLocalEntrega()
@@ -402,10 +360,10 @@ public class Main {
         System.out.println("MODALIDADES DE ENTREGA");
         System.out.println("─".repeat(50));
 
-        List<EstrategiaEntrega> disponiveis = new ArrayList<>();
+        List<EntregaStrategy> disponiveis = new ArrayList<>();
         int numeracao = 1;
 
-        for (EstrategiaEntrega modalidade : todasModalidades) {
+        for (EntregaStrategy modalidade : todasModalidades) {
             try {
                 double preco = modalidade.calcular(pedido.pesoTotalEmKg());
                 System.out.printf("%d. %-22s R$ %.2f%n", numeracao++, modalidade.descricao(), preco);

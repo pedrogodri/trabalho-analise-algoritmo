@@ -1,45 +1,34 @@
 package org.example.model;
 
 import org.example.model.vo.Cep;
-import org.example.model.vo.Cidade;
-import org.example.model.vo.Complemento;
 import org.example.model.vo.Estado;
-import org.example.model.vo.Logradouro;
-import org.example.model.vo.NomeCliente;
-import org.example.model.vo.NumeroEndereco;
+import org.example.util.Validacao;
 
 /**
  * Agrega os dados de endereço de entrega do cliente.
  *
- * <p>Cada campo é um Value Object que valida seus próprios invariantes,
- * garantindo que um {@code EnderecoEntrega} nunca seja construído com dados inválidos.
- * Encapsula também a formatação para exibição, evitando lógica de apresentação
- * espalhada pela camada de UI.</p>
+ * <p>Campos simples (nome, rua, número, complemento, cidade) são armazenados como
+ * {@code String} e validados genericamente no construtor. Campos com formato
+ * específico ({@link Cep}, {@link Estado}) mantêm seus próprios Value Objects.</p>
  */
 public class EnderecoEntrega {
 
-    private final NomeCliente nomeCliente;
     private final Cep cep;
-    private final Logradouro rua;
-    private final NumeroEndereco numero;
-    private final Complemento complemento;
-    private final Cidade cidade;
+    private final String rua;
+    private final String numero;
+    private final String complemento;
+    private final String cidade;
     private final Estado estado;
 
-    public EnderecoEntrega(NomeCliente nomeCliente, Cep cep, Logradouro rua,
-                           NumeroEndereco numero, Complemento complemento,
-                           Cidade cidade, Estado estado) {
-        this.nomeCliente = nomeCliente;
+    public EnderecoEntrega(String nomeCliente, Cep cep, String rua,
+                           String numero, String complemento,
+                           String cidade, Estado estado) {
         this.cep = cep;
-        this.rua = rua;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.cidade = cidade;
+        this.rua = Validacao.validarObrigatorio(rua, "Logradouro");
+        this.numero = Validacao.validarObrigatorio(numero, "Número do endereço");
+        this.complemento = complemento == null || complemento.isBlank() ? "" : complemento.trim();
+        this.cidade = Validacao.validarObrigatorio(cidade, "Cidade");
         this.estado = estado;
-    }
-
-    public NomeCliente nomeCliente() {
-        return nomeCliente;
     }
 
     /**
@@ -47,8 +36,8 @@ public class EnderecoEntrega {
      *
      * @return ex: "Rua das Flores, 123 (Apto 4)" ou "Rua das Flores, 123"
      */
-    public String linhaRua() {
-        String comp = complemento.presente() ? " (" + complemento + ")" : "";
+    public String formatarLougradouro() {
+        String comp = !complemento.isBlank() ? " (" + complemento + ")" : "";
         return rua + ", " + numero + comp;
     }
 
@@ -57,7 +46,7 @@ public class EnderecoEntrega {
      *
      * @return ex: "89010-000 - Blumenau/SC"
      */
-    public String linhaCepCidadeEstado() {
+    public String concatenarCepCidadeEstado() {
         return cep + " - " + cidade + "/" + estado;
     }
 }

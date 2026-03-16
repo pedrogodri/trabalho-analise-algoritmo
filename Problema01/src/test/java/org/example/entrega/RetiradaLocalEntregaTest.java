@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.example.implementation.entrega.RetiradaLocalEntrega;
+
 class RetiradaLocalEntregaTest {
 
     private RetiradaLocalEntrega retirada;

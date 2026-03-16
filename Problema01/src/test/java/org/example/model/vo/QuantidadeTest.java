@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.example.exceptions.DadoInvalidoException;
+import org.example.model.vo.Quantidade;
 
 class QuantidadeTest {
 

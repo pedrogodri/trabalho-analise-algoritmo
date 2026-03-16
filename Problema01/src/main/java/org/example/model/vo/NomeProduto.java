@@ -1,6 +1,7 @@
 package org.example.model.vo;
 
 import org.example.exceptions.DadoInvalidoException;
+import org.example.util.Validacao;
 
 public class NomeProduto {
 
@@ -9,17 +10,11 @@ public class NomeProduto {
     private final String valor;
 
     public NomeProduto(String valor) {
-        validar(valor);
-        this.valor = valor.trim();
-    }
-
-    private static void validar(String valor) {
-        if (valor == null || valor.isBlank()) {
-            throw new DadoInvalidoException("Nome do produto não pode ser vazio");
-        }
-        if (valor.trim().length() > TAMANHO_MAXIMO) {
+        String normalizado = Validacao.validarObrigatorio(valor, "Nome do produto");
+        if (normalizado.length() > TAMANHO_MAXIMO) {
             throw new DadoInvalidoException("Nome do produto não pode ter mais de " + TAMANHO_MAXIMO + " caracteres");
         }
+        this.valor = normalizado;
     }
 
     @Override

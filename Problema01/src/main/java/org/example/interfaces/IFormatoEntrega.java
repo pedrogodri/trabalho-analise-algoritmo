@@ -1,4 +1,8 @@
-package org.example.entrega;
+package org.example.interfaces;
+
+import org.example.implementation.entrega.PacEntrega;
+import org.example.implementation.entrega.RetiradaLocalEntrega;
+import org.example.implementation.entrega.SedexEntrega;
 
 /**
  * Define o contrato para as modalidades de entrega da livraria.
@@ -14,7 +18,7 @@ package org.example.entrega;
  *   <li>{@link RetiradaLocalEntrega} — sem custo</li>
  * </ul>
  */
-public interface EstrategiaEntrega {
+public interface IFormatoEntrega {
 
     /**
      * Calcula o custo de frete para o peso informado.

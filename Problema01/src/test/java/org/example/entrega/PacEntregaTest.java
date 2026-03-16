@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.example.exceptions.EntregaNaoDisponivelException;
+import org.example.implementation.entrega.PacEntrega;
 
 class PacEntregaTest {
 

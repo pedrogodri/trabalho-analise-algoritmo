@@ -1,4 +1,6 @@
-package org.example.entrega;
+package org.example.implementation.entrega;
+
+import org.example.interfaces.IFormatoEntrega;
 
 /**
  * Estratégia de entrega via Sedex (Serviço de Encomenda Expressa).
@@ -11,7 +13,7 @@ package org.example.entrega;
  *       (frações de 100 g são arredondadas para cima)</li>
  * </ul>
  */
-public class SedexEntrega implements EstrategiaEntrega {
+public class SedexEntrega implements IFormatoEntrega {
 
     private static final float LIMITE_500G = 0.5f;
     private static final float LIMITE_1KG = 1.0f;

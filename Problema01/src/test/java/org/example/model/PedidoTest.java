@@ -1,9 +1,9 @@
 package org.example.model;
 
-import org.example.entrega.PacEntrega;
-import org.example.entrega.RetiradaLocalEntrega;
-import org.example.entrega.SedexEntrega;
 import org.example.exceptions.EntregaNaoDisponivelException;
+import org.example.implementation.entrega.PacEntrega;
+import org.example.implementation.entrega.RetiradaLocalEntrega;
+import org.example.implementation.entrega.SedexEntrega;
 import org.example.model.vo.NomeProduto;
 import org.example.model.vo.PesoEmKg;
 import org.example.model.vo.Quantidade;
