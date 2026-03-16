@@ -20,10 +20,9 @@ class PedidoTest {
     @BeforeEach
     void setUp() {
         // Dois livros: 0.4kg + 0.3kg = 0.7kg total
-        Carrinho carrinho = new Carrinho();
-        carrinho.adicionar(item("Livro A", 50.00f, 0.4f, 1));
-        carrinho.adicionar(item("Livro B", 30.00f, 0.3f, 1));
-        pedido = new Pedido(carrinho);
+        pedido = new Pedido();
+        pedido.adicionar(item("Livro A", 50.00f, 0.4f, 1));
+        pedido.adicionar(item("Livro B", 30.00f, 0.3f, 1));
     }
 
     @Test
@@ -55,11 +54,11 @@ class PedidoTest {
 
     @Test
     void deveLancarExcecaoQuandoPedidoUltrapassaLimiteDoPAC() {
-        Carrinho carrinhoPesado = new Carrinho();
-        carrinhoPesado.adicionar(item("Enciclopedia", 200.00f, 3.0f, 1));
+        Pedido pedidoPesado = new Pedido();
+        pedidoPesado.adicionar(item("Enciclopedia", 200.00f, 3.0f, 1));
 
         EntregaNaoDisponivelException excecao = assertThrows(EntregaNaoDisponivelException.class,
-                () -> new Pedido(carrinhoPesado).calcularFrete(new PacEntrega()));
+                () -> pedidoPesado.calcularFrete(new PacEntrega()));
 
         assertEquals("PAC nao aceita pedidos acima de 2kg", excecao.getMessage());
     }
@@ -67,38 +66,35 @@ class PedidoTest {
     @Test
     void deveAcumularPesoDeMultiplosItensComQuantidade() {
         // 1 livro de 0.6kg, quantidade 2 -> 1.2kg total
-        Carrinho carrinhoComQuantidade = new Carrinho();
-        carrinhoComQuantidade.adicionar(item("Livro C", 40.00f, 0.6f, 2));
+        Pedido pedidoComQuantidade = new Pedido();
+        pedidoComQuantidade.adicionar(item("Livro C", 40.00f, 0.6f, 2));
 
         // 1.2kg no Sedex -> 2 grupos de 100g -> R$46,50 + R$3,00 = R$49,50
-        assertEquals(49.50, new Pedido(carrinhoComQuantidade).calcularFrete(new SedexEntrega()), 0.01);
+        assertEquals(49.50, pedidoComQuantidade.calcularFrete(new SedexEntrega()), 0.01);
     }
 
     @Test
-    void deveRetornarPesoZeroParaCarrinhoVazio() {
-        Pedido pedidoVazio = new Pedido(new Carrinho());
-        assertEquals(0.0f, pedidoVazio.pesoTotalEmKg(), 0.001f);
+    void deveRetornarPesoZeroParaPedidoVazio() {
+        assertEquals(0.0f, new Pedido().pesoTotalEmKg(), 0.001f);
     }
 
     @Test
-    void deveRetornarValorZeroParaCarrinhoVazio() {
-        Pedido pedidoVazio = new Pedido(new Carrinho());
-        assertEquals(0.00, pedidoVazio.valorTotalProdutos(), 0.01);
+    void deveRetornarValorZeroParaPedidoVazio() {
+        assertEquals(0.00, new Pedido().valorTotalProdutos(), 0.01);
     }
 
     @Test
-    void deveCalcularFreteRetiradaLocalZeroParaCarrinhoVazio() {
-        Pedido pedidoVazio = new Pedido(new Carrinho());
-        assertEquals(0.00, pedidoVazio.calcularFrete(new RetiradaLocalEntrega()), 0.01);
+    void deveCalcularFreteRetiradaLocalZeroParaPedidoVazio() {
+        assertEquals(0.00, new Pedido().calcularFrete(new RetiradaLocalEntrega()), 0.01);
     }
 
     @Test
     void deveCalcularValorTotalComVariosItensEQuantidades() {
         // Livro A: R$50 x2 = R$100 | Livro B: R$30 x3 = R$90 => total R$190
-        Carrinho carrinhoMisto = new Carrinho();
-        carrinhoMisto.adicionar(item("Livro A", 50.00f, 0.4f, 2));
-        carrinhoMisto.adicionar(item("Livro B", 30.00f, 0.3f, 3));
-        assertEquals(190.00, new Pedido(carrinhoMisto).valorTotalProdutos(), 0.01);
+        Pedido pedidoMisto = new Pedido();
+        pedidoMisto.adicionar(item("Livro A", 50.00f, 0.4f, 2));
+        pedidoMisto.adicionar(item("Livro B", 30.00f, 0.3f, 3));
+        assertEquals(190.00, pedidoMisto.valorTotalProdutos(), 0.01);
     }
 
     private static ItemPedido item(String nome, float valor, float peso, int qtd) {

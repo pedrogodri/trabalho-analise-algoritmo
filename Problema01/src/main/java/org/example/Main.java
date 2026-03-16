@@ -10,7 +10,6 @@ import org.example.implementation.entrega.PacEntrega;
 import org.example.implementation.entrega.RetiradaLocalEntrega;
 import org.example.implementation.entrega.SedexEntrega;
 import org.example.interfaces.IFormatoEntrega;
-import org.example.model.Carrinho;
 import org.example.model.EnderecoEntrega;
 import org.example.model.ItemPedido;
 import org.example.model.Pedido;
@@ -88,18 +87,18 @@ public class Main {
     }
 
     private static boolean iniciarCompra(Scanner scanner, List<Produto> catalogo) {
-        Carrinho carrinho = new Carrinho();
+        Pedido pedido = new Pedido();
         boolean continuar = true;
         boolean deveEncerrar = false;
 
         while (continuar) {
-            continuar = processarIteracaoCompra(scanner, catalogo, carrinho);
+            continuar = processarIteracaoCompra(scanner, catalogo, pedido);
             if (!continuar) deveEncerrar = true;
         }
         return !deveEncerrar;
     }
 
-    private static boolean processarIteracaoCompra(Scanner scanner, List<Produto> catalogo, Carrinho carrinho) {
+    private static boolean processarIteracaoCompra(Scanner scanner, List<Produto> catalogo, Pedido pedido) {
         exibirCatalogo(catalogo);
         System.out.println("0. Encerrar Atendimento");
         System.out.println("─".repeat(50));
@@ -117,10 +116,10 @@ public class Main {
             return true;
         }
 
-        return processarLivroSelecionado(scanner, catalogo.get(selecao - 1), carrinho);
+        return processarLivroSelecionado(scanner, catalogo.get(selecao - 1), pedido);
     }
 
-    private static boolean processarLivroSelecionado(Scanner scanner, Produto livro, Carrinho carrinho) {
+    private static boolean processarLivroSelecionado(Scanner scanner, Produto livro, Pedido pedido) {
         System.out.println("\nLivro selecionado: " + livro.getNome());
         System.out.printf("Preco: R$ %.2f%n", livro.getValor());
 
@@ -131,20 +130,20 @@ public class Main {
             return false;
         }
 
-        carrinho.adicionar(new ItemPedido(livro, quantidade));
+        pedido.adicionar(new ItemPedido(livro, quantidade));
         System.out.printf("%s unidade(s) de '%s' adicionada(s) ao carrinho!%n%n", quantidade, livro.getNome());
 
-        return processarProximaAcao(scanner, carrinho);
+        return processarProximaAcao(scanner, pedido);
     }
 
-    private static boolean processarProximaAcao(Scanner scanner, Carrinho carrinho) {
+    private static boolean processarProximaAcao(Scanner scanner, Pedido pedido) {
         int acao = perguntarProximaAcao(scanner);
 
         return switch (acao) {
             case 1 -> true;
             case 2 -> {
-                exibirResumoCompra(carrinho);
-                exibirTelaEntrega(scanner, carrinho);
+                exibirResumoCompra(pedido);
+                exibirTelaEntrega(scanner, pedido);
                 exibirMensagemEncerramento();
                 yield false;
             }
@@ -205,22 +204,22 @@ public class Main {
         return obterOpcao(scanner);
     }
 
-    private static void exibirResumoCompra(Carrinho carrinho) {
+    private static void exibirResumoCompra(Pedido pedido) {
         System.out.println("\n" + "=".repeat(50));
         System.out.println("RESUMO DO PEDIDO");
         System.out.println("=".repeat(50));
 
-        List<ItemPedido> itens = carrinho.itens();
+        List<ItemPedido> itens = pedido.itens();
         for (int i = 0; i < itens.size(); i++) {
             System.out.printf("%d. %s%n", i + 1, itens.get(i));
         }
 
         System.out.println("─".repeat(50));
-        System.out.printf("Valor Total dos Produtos: R$ %.2f%n", carrinho.valorTotal());
+        System.out.printf("Valor Total dos Produtos: R$ %.2f%n", pedido.valorTotalProdutos());
         System.out.println("=".repeat(50) + "\n");
     }
 
-    private static void exibirTelaEntrega(Scanner scanner, Carrinho carrinho) {
+    private static void exibirTelaEntrega(Scanner scanner, Pedido pedido) {
         System.out.println("+" + "-".repeat(48) + "+");
         System.out.printf("|%-48s|%n", "");
         System.out.printf("|%16s%-32s|%n", "", "DADOS DE ENTREGA");
@@ -229,7 +228,6 @@ public class Main {
 
         EnderecoEntrega endereco = coletarEndereco(scanner);
 
-        Pedido pedido = new Pedido(carrinho);
         IFormatoEntrega formatoEntrega = selecionarModalidadeEntrega(scanner, pedido);
         double frete = pedido.calcularFrete(formatoEntrega);
 

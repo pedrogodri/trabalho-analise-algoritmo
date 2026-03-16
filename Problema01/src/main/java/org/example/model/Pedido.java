@@ -2,21 +2,42 @@ package org.example.model;
 
 import org.example.interfaces.IFormatoEntrega;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
- * Representa um pedido da livraria composto pelos itens do {@link Carrinho}.
+ * Representa um pedido da livraria.
  *
- * <p>Delega o cálculo de frete à {@link EntregaStrategy} fornecida,
- * sem depender de qual modalidade está sendo usada (Strategy Pattern).</p>
+ * <p>Centraliza os itens selecionados pelo cliente e delega o cálculo
+ * de frete à {@link IFormatoEntrega} fornecida (Strategy Pattern).</p>
  */
 public class Pedido {
 
-    private final Carrinho carrinho;
+    private final List<ItemPedido> itens;
 
-    /**
-     * @param carrinho carrinho com os itens do pedido
-     */
-    public Pedido(Carrinho carrinho) {
-        this.carrinho = carrinho;
+    public Pedido() {
+        this.itens = new ArrayList<>();
+    }
+
+    /** Adiciona um item ao pedido. */
+    public void adicionar(ItemPedido item) {
+        itens.add(item);
+    }
+
+    /** Remove todos os itens do pedido. */
+    public void limpar() {
+        itens.clear();
+    }
+
+    /** @return {@code true} se o pedido não tiver itens */
+    public boolean estaVazio() {
+        return itens.isEmpty();
+    }
+
+    /** @return visão somente-leitura dos itens do pedido */
+    public List<ItemPedido> itens() {
+        return Collections.unmodifiableList(itens);
     }
 
     /**
@@ -25,7 +46,7 @@ public class Pedido {
      * @return peso total do pedido em quilogramas
      */
     public float pesoTotalEmKg() {
-        return (float) carrinho.itens().stream()
+        return (float) itens.stream()
                 .mapToDouble(ItemPedido::getPesoTotal)
                 .sum();
     }
@@ -34,7 +55,7 @@ public class Pedido {
      * @return soma dos subtotais (preço x quantidade) de todos os itens
      */
     public double valorTotalProdutos() {
-        return carrinho.valorTotal();
+        return itens.stream().mapToDouble(ItemPedido::getSubtotal).sum();
     }
 
     /**
