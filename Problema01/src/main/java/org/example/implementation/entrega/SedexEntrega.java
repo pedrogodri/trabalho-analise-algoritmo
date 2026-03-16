@@ -1,6 +1,7 @@
 package org.example.implementation.entrega;
 
 import org.example.interfaces.IFormatoEntrega;
+import org.example.model.vo.PesoEmKg;
 
 /**
  * Estratégia de entrega via Sedex (Serviço de Encomenda Expressa).
@@ -23,18 +24,19 @@ public class SedexEntrega implements IFormatoEntrega {
     /**
      * Calcula o frete Sedex com base no peso do pedido.
      *
-     * @param pesoEmKg peso total do pedido em quilogramas
+     * @param pesoEmKg peso total do pedido encapsulado no Value Object
      * @return valor do frete calculado conforme a faixa de peso
      */
     @Override
-    public double calcular(double pesoEmKg) {
-        if (pesoEmKg <= LIMITE_500G) {
+    public double calcular(PesoEmKg pesoEmKg) {
+        double peso = pesoEmKg.valor();
+        if (peso <= LIMITE_500G) {
             return 12.50;
         }
-        if (pesoEmKg <= LIMITE_1KG) {
+        if (peso <= LIMITE_1KG) {
             return 20.00;
         }
-        return calcularAcimaDe1Kg(pesoEmKg);
+        return calcularAcimaDe1Kg(peso);
     }
 
     /**

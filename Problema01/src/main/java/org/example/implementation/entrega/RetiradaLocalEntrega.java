@@ -1,6 +1,7 @@
 package org.example.implementation.entrega;
 
 import org.example.interfaces.IFormatoEntrega;
+import org.example.model.vo.PesoEmKg;
 
 /**
  * Estratégia de entrega por retirada na própria loja.
@@ -17,7 +18,7 @@ public class RetiradaLocalEntrega implements IFormatoEntrega {
      * @return sempre {@code 0.00}
      */
     @Override
-    public double calcular(double pesoEmKg) {
+    public double calcular(PesoEmKg pesoEmKg) {
         return 0.00;
     }
 

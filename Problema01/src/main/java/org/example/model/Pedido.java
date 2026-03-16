@@ -1,6 +1,7 @@
 package org.example.model;
 
 import org.example.interfaces.IFormatoEntrega;
+import org.example.model.vo.PesoEmKg;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -41,14 +42,15 @@ public class Pedido {
     }
 
     /**
-     * Soma o peso de todos os itens considerando suas quantidades.
+     * Soma o peso de todos os itens e retorna encapsulado no Value Object.
      *
-     * @return peso total do pedido em quilogramas
+     * @return peso total do pedido em quilogramas como {@link PesoEmKg}
      */
-    public double pesoTotalEmKg() {
-        return itens.stream()
+    public PesoEmKg pesoTotalEmKg() {
+        double total = itens.stream()
                 .mapToDouble(ItemPedido::getPesoTotal)
                 .sum();
+        return new PesoEmKg((float) Math.max(total, Float.MIN_VALUE));
     }
 
     /**
@@ -59,7 +61,8 @@ public class Pedido {
     }
 
     /**
-     * Delega o cálculo do frete à estratégia informada.
+     * Delega o cálculo do frete à estratégia informada,
+     * passando o peso total encapsulado no {@link PesoEmKg} Value Object.
      *
      * @param estrategia modalidade de entrega escolhida
      * @return custo do frete em reais

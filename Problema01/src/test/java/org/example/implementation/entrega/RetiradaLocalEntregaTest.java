@@ -1,5 +1,6 @@
 package org.example.implementation.entrega;
 
+import org.example.model.vo.PesoEmKg;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,22 +16,22 @@ class RetiradaLocalEntregaTest {
 
     @Test
     void deveRetornarZeroParaPesoPequeno() {
-        assertEquals(0.00, retirada.calcular(0.3f));
+        assertEquals(0.00, retirada.calcular(new PesoEmKg(0.3f)));
     }
 
     @Test
     void deveRetornarZeroParaPesoMedio() {
-        assertEquals(0.00, retirada.calcular(1.5f));
+        assertEquals(0.00, retirada.calcular(new PesoEmKg(1.5f)));
     }
 
     @Test
     void deveRetornarZeroParaPesoGrande() {
-        assertEquals(0.00, retirada.calcular(10.0f));
+        assertEquals(0.00, retirada.calcular(new PesoEmKg(10.0f)));
     }
 
     @Test
     void deveRetornarZeroParaPesoMuitoGrande() {
-        assertEquals(0.00, retirada.calcular(100.0f));
+        assertEquals(0.00, retirada.calcular(new PesoEmKg(100.0f)));
     }
 
     @Test

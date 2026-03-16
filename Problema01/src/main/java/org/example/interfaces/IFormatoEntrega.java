@@ -3,6 +3,7 @@ package org.example.interfaces;
 import org.example.implementation.entrega.PacEntrega;
 import org.example.implementation.entrega.RetiradaLocalEntrega;
 import org.example.implementation.entrega.SedexEntrega;
+import org.example.model.vo.PesoEmKg;
 
 /**
  * Define o contrato para as modalidades de entrega da livraria.
@@ -23,12 +24,12 @@ public interface IFormatoEntrega {
     /**
      * Calcula o custo de frete para o peso informado.
      *
-     * @param pesoEmKg peso total do pedido em quilogramas
+     * @param pesoEmKg peso total do pedido encapsulado no Value Object
      * @return valor do frete em reais
      * @throws org.example.exceptions.EntregaNaoDisponivelException se a modalidade
      *         não aceitar o peso informado
      */
-    double calcular(double pesoEmKg);
+    double calcular(PesoEmKg pesoEmKg);
 
     /**
      * Retorna o nome da modalidade de entrega para exibição ao usuário.

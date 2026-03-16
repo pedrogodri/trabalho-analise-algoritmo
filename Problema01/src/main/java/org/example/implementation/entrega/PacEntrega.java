@@ -2,6 +2,7 @@ package org.example.implementation.entrega;
 
 import org.example.exceptions.EntregaNaoDisponivelException;
 import org.example.interfaces.IFormatoEntrega;
+import org.example.model.vo.PesoEmKg;
 
 /**
  * Estratégia de entrega via encomenda PAC (Postagem Aéreo Comercial).
@@ -21,16 +22,17 @@ public class PacEntrega implements IFormatoEntrega {
     /**
      * Calcula o frete PAC com base no peso do pedido.
      *
-     * @param pesoEmKg peso total do pedido em quilogramas
+     * @param pesoEmKg peso total do pedido encapsulado no Value Object
      * @return R$ 10,00 para até 1 kg; R$ 15,00 para até 2 kg
      * @throws EntregaNaoDisponivelException se o peso ultrapassar 2 kg
      */
     @Override
-    public double calcular(double pesoEmKg) {
-        if (pesoEmKg > LIMITE_2KG) {
+    public double calcular(PesoEmKg pesoEmKg) {
+        double peso = pesoEmKg.valor();
+        if (peso > LIMITE_2KG) {
             throw new EntregaNaoDisponivelException("PAC nao aceita pedidos acima de 2kg");
         }
-        if (pesoEmKg <= LIMITE_1KG) {
+        if (peso <= LIMITE_1KG) {
             return 10.00;
         }
         return 15.00;
