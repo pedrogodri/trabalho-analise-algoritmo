@@ -1,10 +1,5 @@
 package org.example.entrega;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 import org.example.exceptions.EntregaNaoDisponivelException;
 import org.example.implementation.entrega.PacEntrega;
 

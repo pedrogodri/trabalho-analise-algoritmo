@@ -9,7 +9,7 @@ import org.example.exceptions.EntregaNaoDisponivelException;
 import org.example.implementation.entrega.PacEntrega;
 import org.example.implementation.entrega.RetiradaLocalEntrega;
 import org.example.implementation.entrega.SedexEntrega;
-import org.example.interfaces.EntregaStrategy;
+import org.example.interfaces.IFormatoEntrega;
 import org.example.model.Carrinho;
 import org.example.model.EnderecoEntrega;
 import org.example.model.ItemPedido;
@@ -21,6 +21,7 @@ import org.example.model.vo.NomeProduto;
 import org.example.model.vo.PesoEmKg;
 import org.example.model.vo.Quantidade;
 import org.example.model.vo.ValorMonetario;
+
 
 public class Main {
 
@@ -35,13 +36,15 @@ public class Main {
                 int opcao = obterOpcao(scanner);
 
                 switch (opcao) {
-                    case 1 -> iniciarCompra(scanner, catalogo);
-                    case 2 -> cadastrarProduto(scanner, catalogo);
-                    case 3 -> {
+                    case 1 -> { 
+                        if (!iniciarCompra(scanner, catalogo)) 
+                            atendimentoAtivo = false; 
+                    }
+                    case 2 -> {
                         atendimentoAtivo = false;
                         exibirMensagemEncerramento();
                     }
-                    default -> System.out.println("Opcao invalida! Tente novamente.\n");
+                    default -> System.out.println("Opção inválida! Tente novamente.\n");
                 }
             }
         }
@@ -64,59 +67,6 @@ public class Main {
         return new Produto(new NomeProduto(nome), new ValorMonetario(valor), new PesoEmKg(peso));
     }
 
-    private static void cadastrarProduto(Scanner scanner, List<Produto> catalogo) {
-        System.out.println("\n" + "─".repeat(50));
-        System.out.println("CADASTRAR NOVO PRODUTO");
-        System.out.println("─".repeat(50));
-
-        NomeProduto nome = solicitarNome(scanner);
-        ValorMonetario valor = solicitarValor(scanner);
-        PesoEmKg peso = solicitarPeso(scanner);
-
-        catalogo.add(new Produto(nome, valor, peso));
-
-        System.out.println("\nProduto \"" + nome + "\" cadastrado com sucesso!\n");
-    }
-
-    private static NomeProduto solicitarNome(Scanner scanner) {
-        while (true) {
-            System.out.print("Nome do produto: ");
-            try {
-                return new NomeProduto(scanner.nextLine());
-            } catch (DadoInvalidoException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    private static ValorMonetario solicitarValor(Scanner scanner) {
-        while (true) {
-            System.out.print("Valor (R$): ");
-            try {
-                float valor = Float.parseFloat(scanner.nextLine().replace(",", "."));
-                return new ValorMonetario(valor);
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada invalida! Digite um numero valido (ex: 49.90).");
-            } catch (DadoInvalidoException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
-    private static PesoEmKg solicitarPeso(Scanner scanner) {
-        while (true) {
-            System.out.print("Peso em kg (ex: 0.45): ");
-            try {
-                float peso = Float.parseFloat(scanner.nextLine().replace(",", "."));
-                return new PesoEmKg(peso);
-            } catch (NumberFormatException e) {
-                System.out.println("Entrada invalida! Digite um numero valido (ex: 0.45).");
-            } catch (DadoInvalidoException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
-
     private static void exibirMenuPrincipal() {
         System.out.println("\n" + "=".repeat(50));
         System.out.println("┌─────────────────────────────────────────────────┐");
@@ -124,8 +74,7 @@ public class Main {
         System.out.println("└─────────────────────────────────────────────────┘");
         System.out.println("=".repeat(50));
         System.out.println("1. Iniciar Compra");
-        System.out.println("2. Cadastrar Produto");
-        System.out.println("3. Encerrar Atendimento");
+        System.out.println("2. Encerrar Atendimento");
         System.out.println("=".repeat(50));
         System.out.print("Escolha uma opção: ");
     }
@@ -138,13 +87,16 @@ public class Main {
         }
     }
 
-    private static void iniciarCompra(Scanner scanner, List<Produto> catalogo) {
+    private static boolean iniciarCompra(Scanner scanner, List<Produto> catalogo) {
         Carrinho carrinho = new Carrinho();
         boolean continuar = true;
+        boolean deveEncerrar = false;
 
         while (continuar) {
             continuar = processarIteracaoCompra(scanner, catalogo, carrinho);
+            if (!continuar) deveEncerrar = true;
         }
+        return !deveEncerrar;
     }
 
     private static boolean processarIteracaoCompra(Scanner scanner, List<Produto> catalogo, Carrinho carrinho) {
@@ -161,7 +113,7 @@ public class Main {
         }
 
         if (selecao < 1 || selecao > catalogo.size()) {
-            System.out.println("Opcao invalida! Digite um numero valido.\n");
+            System.out.println("Opção inválida! Digite um número válido.\n");
             return true;
         }
 
@@ -193,15 +145,15 @@ public class Main {
             case 2 -> {
                 exibirResumoCompra(carrinho);
                 exibirTelaEntrega(scanner, carrinho);
-                carrinho.limpar();
-                yield true;
+                exibirMensagemEncerramento();
+                yield false;
             }
             case 3 -> {
                 exibirMensagemEncerramento();
                 yield false;
             }
             default -> {
-                System.out.println("Opcao invalida!\n");
+                System.out.println("Opção inválida!\n");
                 yield true;
             }
         };
@@ -209,7 +161,7 @@ public class Main {
 
     private static void exibirCatalogo(List<Produto> catalogo) {
         System.out.println("\n" + "─".repeat(50));
-        System.out.println("CATALOGO DE LIVROS");
+        System.out.println("CATÁLOGO DE LIVROS");
         System.out.println("─".repeat(50));
 
         for (int i = 0; i < catalogo.size(); i++) {
@@ -234,7 +186,7 @@ public class Main {
                 }
                 return new Quantidade(valor);
             } catch (NumberFormatException e) {
-                System.out.println("Entrada invalida! Digite um numero inteiro.");
+                System.out.println("Entrada inválida! Digite um número inteiro.");
             } catch (DadoInvalidoException e) {
                 System.out.println(e.getMessage());
             }
@@ -248,7 +200,7 @@ public class Main {
         System.out.println("2. Encerrar pedido e ir para entrega");
         System.out.println("3. Encerrar atendimento");
         System.out.println("─".repeat(50));
-        System.out.print("Escolha uma opcao: ");
+        System.out.print("Escolha uma opção: ");
 
         return obterOpcao(scanner);
     }
@@ -269,19 +221,19 @@ public class Main {
     }
 
     private static void exibirTelaEntrega(Scanner scanner, Carrinho carrinho) {
-        System.out.println("╔" + "═".repeat(48) + "╗");
-        System.out.println("║" + " ".repeat(48) + "║");
-        System.out.println("║" + " ".repeat(15) + "DADOS DE ENTREGA" + " ".repeat(16) + "║");
-        System.out.println("║" + " ".repeat(48) + "║");
-        System.out.println("╚" + "═".repeat(48) + "╝");
+        System.out.println("+" + "-".repeat(48) + "+");
+        System.out.printf("|%-48s|%n", "");
+        System.out.printf("|%16s%-32s|%n", "", "DADOS DE ENTREGA");
+        System.out.printf("|%-48s|%n", "");
+        System.out.println("+" + "-".repeat(48) + "+");
 
         EnderecoEntrega endereco = coletarEndereco(scanner);
 
         Pedido pedido = new Pedido(carrinho);
-        EntregaStrategy estrategiaSelecionada = selecionarModalidadeEntrega(scanner, pedido);
-        double frete = pedido.calcularFrete(estrategiaSelecionada);
+        IFormatoEntrega formatoEntrega = selecionarModalidadeEntrega(scanner, pedido);
+        double frete = pedido.calcularFrete(formatoEntrega);
 
-        exibirConfirmacaoCompra(endereco, pedido, estrategiaSelecionada, frete);
+        exibirConfirmacaoCompra(endereco, pedido, formatoEntrega, frete);
     }
 
     private static EnderecoEntrega coletarEndereco(Scanner scanner) {
@@ -330,27 +282,27 @@ public class Main {
     }
 
     private static void exibirConfirmacaoCompra(
-            EnderecoEntrega endereco, Pedido pedido, EntregaStrategy estrategia, double frete) {
+            EnderecoEntrega endereco, Pedido pedido, IFormatoEntrega formatoEntrega, double frete) {
 
         System.out.println("\n" + "═".repeat(50));
-        System.out.println("CONFIRMACAO DE COMPRA");
+        System.out.println("CONFIRMAÇÃO DE COMPRA");
         System.out.println("═".repeat(50));
-        System.out.printf("Cliente:  %s%n", endereco.nomeCliente());
-        System.out.printf("Endereco: %s%n", endereco.linhaRua());
-        System.out.printf("CEP:      %s%n", endereco.linhaCepCidadeEstado());
+        //System.out.printf("Cliente:  %s%n", endereco.nomeCliente()); //colocar nome do cliente no pedido
+        System.out.printf("Endereco: %s%n", endereco.formatarLougradouro());
+        System.out.printf("CEP:      %s%n", endereco.concatenarCepCidadeEstado());
         System.out.println("─".repeat(50));
         System.out.printf("Valor da Compra:  R$ %.2f%n", pedido.valorTotalProdutos());
-        System.out.printf("Tipo de Entrega:  %s%n", estrategia.descricao());
+        System.out.printf("Tipo de Entrega:  %s%n", formatoEntrega.descricao());
         System.out.printf("Taxa de Entrega:  R$ %.2f%n", frete);
         System.out.println("─".repeat(50));
         System.out.printf("VALOR TOTAL:      R$ %.2f%n", pedido.valorTotalProdutos() + frete);
         System.out.println("═".repeat(50));
         System.out.println("\nPedido confirmado com sucesso!");
-        System.out.println("Um e-mail de confirmacao foi enviado para voce.\n");
+        System.out.println("Um e-mail de confirmação foi enviado para você.\n");
     }
 
-    private static EntregaStrategy selecionarModalidadeEntrega(Scanner scanner, Pedido pedido) {
-        List<EntregaStrategy> todasModalidades = List.of(
+    private static IFormatoEntrega selecionarModalidadeEntrega(Scanner scanner, Pedido pedido) {
+        List<IFormatoEntrega> todasModalidades = List.of(
                 new PacEntrega(),
                 new SedexEntrega(),
                 new RetiradaLocalEntrega()
@@ -360,16 +312,16 @@ public class Main {
         System.out.println("MODALIDADES DE ENTREGA");
         System.out.println("─".repeat(50));
 
-        List<EntregaStrategy> disponiveis = new ArrayList<>();
+        List<IFormatoEntrega> disponiveis = new ArrayList<>();
         int numeracao = 1;
 
-        for (EntregaStrategy modalidade : todasModalidades) {
+        for (IFormatoEntrega modalidade : todasModalidades) {
             try {
                 double preco = modalidade.calcular(pedido.pesoTotalEmKg());
                 System.out.printf("%d. %-22s R$ %.2f%n", numeracao++, modalidade.descricao(), preco);
                 disponiveis.add(modalidade);
             } catch (EntregaNaoDisponivelException e) {
-                System.out.printf("   %-22s Nao disponivel para este peso%n", modalidade.descricao());
+                System.out.printf("   %-22s Não disponível para este peso%n", modalidade.descricao());
             }
         }
 
@@ -381,19 +333,19 @@ public class Main {
             if (opcao >= 1 && opcao <= disponiveis.size()) {
                 return disponiveis.get(opcao - 1);
             }
-            System.out.print("Opcao invalida! Tente novamente: ");
+            System.out.print("Opção inválida! Tente novamente: ");
         }
     }
 
     private static void exibirMensagemEncerramento() {
-        System.out.println("\n" + "*".repeat(50));
-        System.out.println("\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓");
-        System.out.println("┃                                                 ┃");
-        System.out.println("┃  Obrigado por visitar nossa livraria!          ┃");
-        System.out.println("┃                                                 ┃");
-        System.out.println("┃  Ate breve! Volte sempre!                      ┃");
-        System.out.println("┃                                                 ┃");
-        System.out.println("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛");
-        System.out.println("\n" + "*".repeat(50) + "\n");
+        System.out.println("\n" + "*".repeat(51));
+        System.out.println("\n+" + "-".repeat(49) + "+");
+        System.out.printf("|%-49s|%n", "");
+        System.out.printf("|%-49s|%n", "  Obrigado por visitar nossa livraria!");
+        System.out.printf("|%-49s|%n", "");
+        System.out.printf("|%-49s|%n", "  Volte sempre!");
+        System.out.printf("|%-49s|%n", "");
+        System.out.println("+" + "-".repeat(49) + "+");
+        System.out.println("\n" + "*".repeat(51) + "\n");
     }
 }
