@@ -26,7 +26,7 @@ public class Main {
 
     public static void main(String[] args) {
         try (Scanner scanner = new Scanner(System.in)) {
-            List<Produto> catalogo = inicializarCatalogo();
+            List<Produto> catalogo = Catalogo.inicializarCatalogo();
 
             boolean atendimentoAtivo = true;
 
@@ -49,22 +49,22 @@ public class Main {
         }
     }
 
-    private static List<Produto> inicializarCatalogo() {
-        List<Produto> catalogo = new ArrayList<>();
-        catalogo.add(produto("O Senhor dos Anéis", 89.90f, 0.45f));
-        catalogo.add(produto("Harry Potter e a Pedra Filosofal", 65.00f, 0.40f));
-        catalogo.add(produto("1984 - George Orwell", 45.90f, 0.35f));
-        catalogo.add(produto("O Código Da Vinci", 59.90f, 0.42f));
-        catalogo.add(produto("Dom Casmurro - Machado de Assis", 35.00f, 0.30f));
-        catalogo.add(produto("A Revolução dos Bichos", 38.50f, 0.28f));
-        catalogo.add(produto("O Pequeno Príncipe", 42.00f, 0.25f));
-        catalogo.add(produto("Cem Anos de Solidão", 72.50f, 0.48f));
-        return catalogo;
-    }
+    // private static List<Produto> inicializarCatalogo() {
+    //     List<Produto> catalogo = new ArrayList<>();
+    //     catalogo.add(produto("O Senhor dos Anéis", 89.90f, 0.45f));
+    //     catalogo.add(produto("Harry Potter e a Pedra Filosofal", 65.00f, 0.40f));
+    //     catalogo.add(produto("1984 - George Orwell", 45.90f, 0.35f));
+    //     catalogo.add(produto("O Código Da Vinci", 59.90f, 0.42f));
+    //     catalogo.add(produto("Dom Casmurro - Machado de Assis", 35.00f, 0.30f));
+    //     catalogo.add(produto("A Revolução dos Bichos", 38.50f, 0.28f));
+    //     catalogo.add(produto("O Pequeno Príncipe", 42.00f, 0.25f));
+    //     catalogo.add(produto("Cem Anos de Solidão", 72.50f, 0.48f));
+    //     return catalogo;
+    // }
 
-    private static Produto produto(String nome, float valor, float peso) {
-        return new Produto(new NomeProduto(nome), new ValorMonetario(valor), new PesoEmKg(peso));
-    }
+    // private static Produto produto(String nome, float valor, float peso) {
+    //     return new Produto(new NomeProduto(nome), new ValorMonetario(valor), new PesoEmKg(peso));
+    // }
 
     private static void exibirMenuPrincipal() {
         System.out.println("\n" + "=".repeat(50));
@@ -235,49 +235,49 @@ public class Main {
     }
 
     private static EnderecoEntrega coletarEndereco(Scanner scanner) {
-        String nome = solicitarCampoObrigatorio(scanner, "Seu nome completo: ", "Nome do cliente");
-        Cep cep = solicitarCep(scanner);
-        String rua = solicitarCampoObrigatorio(scanner, "Rua: ", "Logradouro");
-        String numero = solicitarCampoObrigatorio(scanner, "Numero: ", "Número do endereço");
+        String nome = PreenchimentoDados.solicitarCampoObrigatorio(scanner, "Seu nome completo: ", "Nome do cliente");
+        Cep cep = PreenchimentoDados.solicitarCep(scanner);
+        String rua = PreenchimentoDados.solicitarCampoObrigatorio(scanner, "Rua: ", "Logradouro");
+        String numero = PreenchimentoDados.solicitarCampoObrigatorio(scanner, "Numero: ", "Número do endereço");
         System.out.print("Complemento (opcional): ");
         String complemento = scanner.nextLine();
-        String cidade = solicitarCampoObrigatorio(scanner, "Cidade: ", "Cidade");
-        Estado estado = solicitarEstado(scanner);
+        String cidade = PreenchimentoDados.solicitarCampoObrigatorio(scanner, "Cidade: ", "Cidade");
+        Estado estado = PreenchimentoDados.solicitarEstado(scanner);
         return new EnderecoEntrega(nome, cep, rua, numero, complemento, cidade, estado);
     }
 
-    private static String solicitarCampoObrigatorio(Scanner scanner, String prompt, String nomeCampo) {
-        while (true) {
-            System.out.print(prompt);
-            String valor = scanner.nextLine();
-            if (valor != null && !valor.isBlank()) {
-                return valor;
-            }
-            System.out.println(nomeCampo + " não pode ser vazio");
-        }
-    }
+    // private static String solicitarCampoObrigatorio(Scanner scanner, String prompt, String nomeCampo) {
+    //     while (true) {
+    //         System.out.print(prompt);
+    //         String valor = scanner.nextLine();
+    //         if (valor != null && !valor.isBlank()) {
+    //             return valor;
+    //         }
+    //         System.out.println(nomeCampo + " não pode ser vazio");
+    //     }
+    // }
 
-    private static Cep solicitarCep(Scanner scanner) {
-        while (true) {
-            System.out.print("CEP: ");
-            try {
-                return new Cep(scanner.nextLine());
-            } catch (DadoInvalidoException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
+    // private static Cep solicitarCep(Scanner scanner) {
+    //     while (true) {
+    //         System.out.print("CEP: ");
+    //         try {
+    //             return new Cep(scanner.nextLine());
+    //         } catch (DadoInvalidoException e) {
+    //             System.out.println(e.getMessage());
+    //         }
+    //     }
+    // }
 
-    private static Estado solicitarEstado(Scanner scanner) {
-        while (true) {
-            System.out.print("Estado (sigla, ex: SC): ");
-            try {
-                return new Estado(scanner.nextLine());
-            } catch (DadoInvalidoException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-    }
+    // private static Estado solicitarEstado(Scanner scanner) {
+    //     while (true) {
+    //         System.out.print("Estado (sigla, ex: SC): ");
+    //         try {
+    //             return new Estado(scanner.nextLine());
+    //         } catch (DadoInvalidoException e) {
+    //             System.out.println(e.getMessage());
+    //         }
+    //     }
+    // }
 
     private static void exibirConfirmacaoCompra(
             EnderecoEntrega endereco, Pedido pedido, IFormatoEntrega formatoEntrega, double frete) {
