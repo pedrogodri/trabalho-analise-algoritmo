@@ -28,7 +28,7 @@ public interface IFormatoEntrega {
      * @throws org.example.exceptions.EntregaNaoDisponivelException se a modalidade
      *         não aceitar o peso informado
      */
-    double calcular(float pesoEmKg);
+    double calcular(double pesoEmKg);
 
     /**
      * Retorna o nome da modalidade de entrega para exibição ao usuário.

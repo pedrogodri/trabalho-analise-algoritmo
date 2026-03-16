@@ -15,8 +15,8 @@ import org.example.interfaces.IFormatoEntrega;
  */
 public class PacEntrega implements IFormatoEntrega {
 
-    private static final float LIMITE_1KG = 1.0f;
-    private static final float LIMITE_2KG = 2.0f;
+    private static final double LIMITE_1KG = 1.0;
+    private static final double LIMITE_2KG = 2.0;
 
     /**
      * Calcula o frete PAC com base no peso do pedido.
@@ -26,7 +26,7 @@ public class PacEntrega implements IFormatoEntrega {
      * @throws EntregaNaoDisponivelException se o peso ultrapassar 2 kg
      */
     @Override
-    public double calcular(float pesoEmKg) {
+    public double calcular(double pesoEmKg) {
         if (pesoEmKg > LIMITE_2KG) {
             throw new EntregaNaoDisponivelException("PAC nao aceita pedidos acima de 2kg");
         }

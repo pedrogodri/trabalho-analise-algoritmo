@@ -1,4 +1,19 @@
-public static class Catalogo{
+package org.example.view;
+
+import org.example.model.Produto;
+import org.example.model.vo.NomeProduto;
+import org.example.model.vo.PesoEmKg;
+import org.example.model.vo.ValorMonetario;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Responsável por fornecer o catálogo de livros disponíveis para venda.
+ */
+public class Catalogo {
+
+    private Catalogo() {}
 
     public static List<Produto> inicializarCatalogo() {
         List<Produto> catalogo = new ArrayList<>();

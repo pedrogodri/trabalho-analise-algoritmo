@@ -4,6 +4,8 @@ import org.example.model.vo.NomeProduto;
 import org.example.model.vo.PesoEmKg;
 import org.example.model.vo.ValorMonetario;
 
+import java.util.Objects;
+
 /**
  * Representa um livro disponível no catálogo da livraria.
  *
@@ -27,18 +29,39 @@ public class Produto {
         this.peso = peso;
     }
 
-    /** @return nome do livro como String */
-    public String getNome() {
-        return nome.toString();
+    /** @return Value Object do nome */
+    public NomeProduto getNomeProduto() {
+        return nome;
     }
 
-    /** @return preço de venda em reais */
-    public float getValor() {
-        return valor.valor();
+    /** @return Value Object do valor monetário, para cálculos precisos */
+    public ValorMonetario getValorMonetario() {
+        return valor;
     }
 
-    /** @return peso do livro em quilogramas */
-    public float getPeso() {
-        return peso.valor();
+    /** @return Value Object do peso, para lógica de frete */
+    public PesoEmKg getPesoEmKg() {
+        return peso;
+    }
+
+    @Override
+    public String toString() {
+        return nome + " | " + valor + " | " + peso;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Produto that)) return false;
+        return Objects.equals(nome, that.nome)
+                && Objects.equals(valor, that.valor)
+                && Objects.equals(peso, that.peso);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, valor, peso);
     }
 }
+
+

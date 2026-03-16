@@ -1,10 +1,7 @@
 package org.example.model.vo;
 
 import org.example.exceptions.DadoInvalidoException;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class CepTest {
@@ -68,5 +65,20 @@ class CepTest {
     void deveAceitarCepComZerosAEsquerda() {
         Cep cep = new Cep("01310100");
         assertEquals("01310-100", cep.toString());
+    }
+
+    @Test
+    void doisCepsIguaisDevemSerIguais() {
+        assertEquals(new Cep("89010-000"), new Cep("89010000"));
+    }
+
+    @Test
+    void cepsDistintosDevemSerDiferentes() {
+        assertNotEquals(new Cep("89010-000"), new Cep("01310-100"));
+    }
+
+    @Test
+    void doisCepsIguaisDevemTerMesmoHashCode() {
+        assertEquals(new Cep("89010000").hashCode(), new Cep("89010-000").hashCode());
     }
 }

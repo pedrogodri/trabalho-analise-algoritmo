@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.example.exceptions.DadoInvalidoException;
-import org.example.model.vo.PesoEmKg;
 
 class PesoEmKgTest {
 
@@ -44,5 +43,20 @@ class PesoEmKgTest {
     void deveFormatarToStringParaPesoInteiro() {
         PesoEmKg peso = new PesoEmKg(2.0f);
         assertEquals("2.0kg", peso.toString());
+    }
+
+    @Test
+    void doisPesosIguaisDevemSerIguais() {
+        assertEquals(new PesoEmKg(0.5f), new PesoEmKg(0.5f));
+    }
+
+    @Test
+    void pesosDistintosDevemSerDiferentes() {
+        assertNotEquals(new PesoEmKg(0.5f), new PesoEmKg(1.0f));
+    }
+
+    @Test
+    void doisPesosIguaisDevemTerMesmoHashCode() {
+        assertEquals(new PesoEmKg(0.5f).hashCode(), new PesoEmKg(0.5f).hashCode());
     }
 }

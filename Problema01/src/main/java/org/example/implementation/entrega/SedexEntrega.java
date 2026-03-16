@@ -15,8 +15,8 @@ import org.example.interfaces.IFormatoEntrega;
  */
 public class SedexEntrega implements IFormatoEntrega {
 
-    private static final float LIMITE_500G = 0.5f;
-    private static final float LIMITE_1KG = 1.0f;
+    private static final double LIMITE_500G = 0.5;
+    private static final double LIMITE_1KG = 1.0;
     private static final double CUSTO_BASE_ACIMA_1KG = 46.50;
     private static final double CUSTO_POR_100G_ADICIONAL = 1.50;
 
@@ -27,7 +27,7 @@ public class SedexEntrega implements IFormatoEntrega {
      * @return valor do frete calculado conforme a faixa de peso
      */
     @Override
-    public double calcular(float pesoEmKg) {
+    public double calcular(double pesoEmKg) {
         if (pesoEmKg <= LIMITE_500G) {
             return 12.50;
         }
@@ -46,8 +46,8 @@ public class SedexEntrega implements IFormatoEntrega {
      * @param pesoEmKg peso garantidamente maior que 1 kg
      * @return custo base somado ao valor dos grupos de 100 g adicionais
      */
-    private double calcularAcimaDe1Kg(float pesoEmKg) {
-        int pesoEmGramas = Math.round(pesoEmKg * 1000);
+    private double calcularAcimaDe1Kg(double pesoEmKg) {
+        int pesoEmGramas = (int) Math.round(pesoEmKg * 1000);
         int gramasAcimaDe1Kg = pesoEmGramas - 1000;
         int gruposDe100g = (int) Math.ceil(gramasAcimaDe1Kg / 100.0);
         return CUSTO_BASE_ACIMA_1KG + CUSTO_POR_100G_ADICIONAL * gruposDe100g;

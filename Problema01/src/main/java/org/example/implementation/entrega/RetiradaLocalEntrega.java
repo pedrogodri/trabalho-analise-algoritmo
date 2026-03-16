@@ -17,7 +17,7 @@ public class RetiradaLocalEntrega implements IFormatoEntrega {
      * @return sempre {@code 0.00}
      */
     @Override
-    public double calcular(float pesoEmKg) {
+    public double calcular(double pesoEmKg) {
         return 0.00;
     }
 

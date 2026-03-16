@@ -1,10 +1,7 @@
 package org.example.model.vo;
 
 import org.example.exceptions.DadoInvalidoException;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 class EstadoTest {
@@ -68,5 +65,20 @@ class EstadoTest {
     @Test
     void deveLancarExcecaoParaSiglaSoComEspacos() {
         assertThrows(DadoInvalidoException.class, () -> new Estado("   "));
+    }
+
+    @Test
+    void doisEstadosIguaisDevemSerIguais() {
+        assertEquals(new Estado("SC"), new Estado("sc"));
+    }
+
+    @Test
+    void estadosDistintosDevemSerDiferentes() {
+        assertNotEquals(new Estado("SC"), new Estado("SP"));
+    }
+
+    @Test
+    void doisEstadosIguaisDevemTerMesmoHashCode() {
+        assertEquals(new Estado("SC").hashCode(), new Estado("sc").hashCode());
     }
 }

@@ -45,8 +45,8 @@ public class Pedido {
      *
      * @return peso total do pedido em quilogramas
      */
-    public float pesoTotalEmKg() {
-        return (float) itens.stream()
+    public double pesoTotalEmKg() {
+        return itens.stream()
                 .mapToDouble(ItemPedido::getPesoTotal)
                 .sum();
     }

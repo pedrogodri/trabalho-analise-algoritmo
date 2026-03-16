@@ -1,7 +1,26 @@
-public static class PreenchimentoDados{
+package org.example.view;
 
-    // Retorna null quando o usuário quer encerrar (digita 0)
-    // Loop até receber entrada válida — validação centralizada no VO Quantidade
+import org.example.exceptions.DadoInvalidoException;
+import org.example.model.vo.Cep;
+import org.example.model.vo.Estado;
+import org.example.model.vo.Quantidade;
+
+import java.util.Scanner;
+
+/**
+ * Responsável por coletar e validar dados digitados pelo usuário.
+ *
+ * <p>Cada método entra em loop até receber uma entrada válida,
+ * exibindo a mensagem de erro do domínio quando necessário.</p>
+ */
+public class PreenchimentoDados {
+
+    private PreenchimentoDados() {}
+
+    /**
+     * Solicita uma quantidade ao usuário. Retorna {@code null} se o usuário
+     * digitar 0 (sinalizando intenção de encerrar).
+     */
     public static Quantidade solicitarQuantidade(Scanner scanner) {
         while (true) {
             System.out.print("\nQuantas unidades deseja (ou 0 para encerrar)? ");
@@ -20,18 +39,20 @@ public static class PreenchimentoDados{
         }
     }
 
+    /** Solicita um campo de texto obrigatório, repetindo até receber valor não-vazio. */
     public static String solicitarCampoObrigatorio(Scanner scanner, String prompt, String nomeCampo) {
         while (true) {
             System.out.print(prompt);
             String valor = scanner.nextLine();
             if (valor != null && !valor.isBlank()) {
-                return valor;
+                return valor.trim();
             }
             System.out.println(nomeCampo + " não pode ser vazio");
         }
     }
 
-    private static Cep solicitarCep(Scanner scanner) {
+    /** Solicita um CEP ao usuário, repetindo até receber um valor válido. */
+    public static Cep solicitarCep(Scanner scanner) {
         while (true) {
             System.out.print("CEP: ");
             try {
@@ -42,7 +63,8 @@ public static class PreenchimentoDados{
         }
     }
 
-    private static Estado solicitarEstado(Scanner scanner) {
+    /** Solicita a sigla de um estado ao usuário, repetindo até receber um valor válido. */
+    public static Estado solicitarEstado(Scanner scanner) {
         while (true) {
             System.out.print("Estado (sigla, ex: SC): ");
             try {

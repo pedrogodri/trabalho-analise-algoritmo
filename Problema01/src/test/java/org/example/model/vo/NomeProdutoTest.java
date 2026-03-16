@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.example.exceptions.DadoInvalidoException;
-import org.example.model.vo.NomeProduto;
 
 class NomeProdutoTest {
 
@@ -66,5 +65,25 @@ class NomeProdutoTest {
     void deveRetornarNomeSemEspacosExtrasNoToString() {
         NomeProduto nome = new NomeProduto("  Livro Trim  ");
         assertEquals("Livro Trim", nome.toString());
+    }
+
+    @Test
+    void doisNomesIguaisDevemSerIguais() {
+        assertEquals(new NomeProduto("Clean Code"), new NomeProduto("Clean Code"));
+    }
+
+    @Test
+    void nomesComTrimIgualDevemSerIguais() {
+        assertEquals(new NomeProduto("  Clean Code  "), new NomeProduto("Clean Code"));
+    }
+
+    @Test
+    void nomesDistintosDevemSerDiferentes() {
+        assertNotEquals(new NomeProduto("Livro A"), new NomeProduto("Livro B"));
+    }
+
+    @Test
+    void doisNomesIguaisDevemTerMesmoHashCode() {
+        assertEquals(new NomeProduto("Clean Code").hashCode(), new NomeProduto("Clean Code").hashCode());
     }
 }
