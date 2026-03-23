@@ -49,4 +49,27 @@ class QuantidadeAcaoTest {
         QuantidadeAcao sessenta = new QuantidadeAcao(60);
         assertEquals(sessenta, cem.minimo(sessenta));
     }
+
+    @Test
+    void deveLancarExcecaoAoSubtrairQuantidadeIgualAoTotal() {
+        QuantidadeAcao cem = new QuantidadeAcao(100);
+        assertThrows(IllegalArgumentException.class, () -> cem.subtrair(new QuantidadeAcao(100)));
+    }
+
+    @Test
+    void deveConsiderarQuantidadesIguaisComoIguais() {
+        QuantidadeAcao q1 = new QuantidadeAcao(50);
+        QuantidadeAcao q2 = new QuantidadeAcao(50);
+
+        assertEquals(q1, q2);
+        assertEquals(q1.hashCode(), q2.hashCode());
+    }
+
+    @Test
+    void deveRetornarQuantidadeComoTexto() {
+        QuantidadeAcao quantidade = new QuantidadeAcao(120);
+        assertEquals("120", quantidade.toString());
+    }
+
+
 }

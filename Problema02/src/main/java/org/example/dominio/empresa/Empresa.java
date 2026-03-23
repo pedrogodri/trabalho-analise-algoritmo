@@ -1,7 +1,9 @@
 package org.example.dominio.empresa;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.example.dominio.acao.PrecoAcao;
 import org.example.dominio.ordem.OrdemDeCompra;
@@ -28,13 +30,13 @@ public final class Empresa implements SujeitoDePreco, AlvoDeAtualizacaoDePreco {
 
     private final NomeDaEmpresa nome;
     private PrecoAcao precoAtual;
-    private final List<ObservadorDePreco> observadores;
+    private final Set<ObservadorDePreco> observadores;
     private final LivroDeOrdens livroDeOrdens;
 
     public Empresa(NomeDaEmpresa nome) {
         this.nome = nome;
         this.precoAtual = null;
-        this.observadores = new ArrayList<>();
+        this.observadores = new HashSet<>();
         this.livroDeOrdens = new LivroDeOrdens(this);
     }
 

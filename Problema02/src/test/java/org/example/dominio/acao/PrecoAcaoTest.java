@@ -57,4 +57,29 @@ class PrecoAcaoTest {
         PrecoAcao preco2 = new PrecoAcao("25.00");
         assertEquals(preco1, preco2);
     }
+
+    @Test
+    void deveCompararPrecosCorretamente() {
+        PrecoAcao menor = new PrecoAcao("10.00");
+        PrecoAcao maior = new PrecoAcao("20.00");
+
+        assertTrue(menor.compareTo(maior) < 0);
+        assertTrue(maior.compareTo(menor) > 0);
+        assertEquals(0, menor.compareTo(new PrecoAcao("10.00")));
+    }
+
+    @Test
+    void deveRetornarRepresentacaoTextualDoPreco() {
+        PrecoAcao preco = new PrecoAcao("15.00");
+        assertEquals("R$ 15.00", preco.toString());
+    }
+
+    @Test
+    void deveGerarMesmoHashCodeParaPrecosIguais() {
+        PrecoAcao preco1 = new PrecoAcao("25.00");
+        PrecoAcao preco2 = new PrecoAcao("25.00");
+
+        assertEquals(preco1.hashCode(), preco2.hashCode());
+    }
+
 }

@@ -96,4 +96,22 @@ class CombinadorDeOrdensTest {
         assertEquals("CompradorB",
             resultado.get().getOrdemDeCompra().getInvestidor().getNomeCompleto());
     }
+
+    @Test
+    void deveIgnorarOrdensJaExecutadas() {
+        ListaDeOrdens compras = new ListaDeOrdens();
+        ListaDeOrdens vendas = new ListaDeOrdens();
+
+        OrdemDeCompra compraExecutada = new OrdemDeCompra(
+                comprador, new PrecoAcao("35.00"), new QuantidadeAcao(100));
+        compraExecutada.deduzirQuantidade(new QuantidadeAcao(100));
+
+        compras.adicionar(compraExecutada);
+        vendas.adicionar(new OrdemDeVenda(vendedor, new PrecoAcao("30.00"), new QuantidadeAcao(100)));
+
+        Optional<ParDeOrdens> resultado = combinador.encontrarCombinacao(compras, vendas);
+
+        assertFalse(resultado.isPresent());
+    }
+
 }

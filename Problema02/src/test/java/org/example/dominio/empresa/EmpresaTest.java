@@ -99,4 +99,21 @@ class EmpresaTest {
 
         assertTrue(notificacoes.isEmpty());
     }
+
+    @Test
+    void naoDeveNotificarObservadorDuplicadoDuasVezes() {
+        List<String> notificacoes = new ArrayList<>();
+        var observador = (org.example.observer.ObservadorDePreco)
+                (nomeEmpresa, novoPreco) -> notificacoes.add("notificado");
+
+        empresa.inscrever(observador);
+        empresa.inscrever(observador);
+
+        empresa.registrarOrdemDeVenda(
+                new OrdemDeVenda(vendedor, new PrecoAcao("30.00"), new QuantidadeAcao(100)));
+        empresa.registrarOrdemDeCompra(
+                new OrdemDeCompra(comprador, new PrecoAcao("35.00"), new QuantidadeAcao(100)));
+
+        assertEquals(1, notificacoes.size());
+    }
 }

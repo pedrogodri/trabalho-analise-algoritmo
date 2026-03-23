@@ -6,9 +6,7 @@ import org.example.dominio.investidor.Investidor;
 import org.example.dominio.investidor.NomeDoInvestidor;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class OrdemTest {
 
@@ -53,5 +51,33 @@ class OrdemTest {
 
         assertEquals(TipoOrdem.COMPRA, compra.getDirecao());
         assertEquals(TipoOrdem.VENDA, venda.getDirecao());
+    }
+
+    @Test
+    void deveCriarOrdemDeVendaPendente() {
+        OrdemDeVenda ordem = new OrdemDeVenda(
+                criarInvestidor("Bob"), new PrecoAcao("30.00"), new QuantidadeAcao(80));
+        assertTrue(ordem.estaPendente());
+    }
+
+    @Test
+    void deveGerarRepresentacaoTextualDaOrdem() {
+        OrdemDeCompra ordem = new OrdemDeCompra(
+                criarInvestidor("Alice"), new PrecoAcao("35.00"), new QuantidadeAcao(100));
+
+        String texto = ordem.toString();
+
+        assertTrue(texto.contains("COMPRA"));
+        assertTrue(texto.contains("Alice"));
+        assertTrue(texto.contains("R$ 35.00"));
+    }
+
+    @Test
+    void deveLancarExcecaoAoDeduzirMaisQueQuantidadeRestante() {
+        OrdemDeCompra ordem = new OrdemDeCompra(
+                criarInvestidor("Alice"), new PrecoAcao("35.00"), new QuantidadeAcao(100));
+
+        assertThrows(IllegalArgumentException.class,
+                () -> ordem.deduzirQuantidade(new QuantidadeAcao(150)));
     }
 }

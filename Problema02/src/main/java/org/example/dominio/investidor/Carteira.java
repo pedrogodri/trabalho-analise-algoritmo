@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.example.dominio.acao.QuantidadeAcao;
 import org.example.dominio.empresa.NomeDaEmpresa;
+import org.example.excecao.SaldoInsuficienteException;
 import org.example.infra.LogMercado;
 
 /**
@@ -48,8 +49,8 @@ public final class Carteira {
 
     private void validarSaldoSuficiente(NomeDaEmpresa empresa, QuantidadeAcao quantidade) {
         if (!possuiAcoesSuficientes(empresa, quantidade)) {
-            throw new IllegalStateException(
-                "Saldo insuficiente de " + empresa.getNome() + " para deduzir " + quantidade + " ações.");
+            throw new SaldoInsuficienteException(
+                    "Saldo insuficiente de " + empresa.getNome() + " para deduzir " + quantidade + " ações.");
         }
     }
 

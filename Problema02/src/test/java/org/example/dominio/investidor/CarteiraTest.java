@@ -2,6 +2,7 @@ package org.example.dominio.investidor;
 
 import org.example.dominio.acao.QuantidadeAcao;
 import org.example.dominio.empresa.NomeDaEmpresa;
+import org.example.excecao.SaldoInsuficienteException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -43,12 +44,26 @@ class CarteiraTest {
 
     @Test
     void deveLancarExcecaoAoDeduzirSemSaldo() {
-        assertThrows(IllegalStateException.class,
+        assertThrows(SaldoInsuficienteException.class,
             () -> carteira.deduzirAcoes(empresa, new QuantidadeAcao(10)));
     }
 
     @Test
     void deveRetornarFalsoParaEmpresaNaoExistenteNaCarteira() {
         assertFalse(carteira.possuiAcoesSuficientes(empresa, new QuantidadeAcao(1)));
+    }
+
+    @Test
+    void deveRemoverEmpresaDaCarteiraQuandoVenderTodasAsAcoes() {
+        carteira.receberAcoes(empresa, new QuantidadeAcao(100));
+        carteira.deduzirAcoes(empresa, new QuantidadeAcao(100));
+
+        assertFalse(carteira.possuiAcoesSuficientes(empresa, new QuantidadeAcao(1)));
+    }
+
+    @Test
+    void deveConsiderarSaldoExatoComoSuficiente() {
+        carteira.receberAcoes(empresa, new QuantidadeAcao(100));
+        assertTrue(carteira.possuiAcoesSuficientes(empresa, new QuantidadeAcao(100)));
     }
 }

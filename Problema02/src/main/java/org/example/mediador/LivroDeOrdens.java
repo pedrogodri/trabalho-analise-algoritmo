@@ -8,6 +8,7 @@ import org.example.dominio.ordem.OrdemDeCompra;
 import org.example.dominio.ordem.OrdemDeVenda;
 import org.example.dominio.transacao.ListaDeTransacoes;
 import org.example.dominio.transacao.Transacao;
+import org.example.excecao.OrdemInvalidaException;
 import org.example.infra.LogMercado;
 
 /**
@@ -32,10 +33,6 @@ import org.example.infra.LogMercado;
  *       <b>pedido do vendedor</b> (semântica padrão de ordens limitadas).</li>
  * </ul>
  * </p>
- *
- * <p><b>Recursão</b>: após cada execução, {@code processarOrdens()} é chamado
- * novamente para verificar se novas combinações ficaram disponíveis
- * (ex: uma ordem parcialmente preenchida pode combinar com outra).</p>
  */
 public final class LivroDeOrdens {
 
@@ -55,34 +52,57 @@ public final class LivroDeOrdens {
 
     /** Registra uma ordem de compra e tenta processar combinações imediatamente. */
     public void registrarOrdemDeCompra(OrdemDeCompra ordem) {
-        LogMercado.registroDeOrdemDeCompra(ordem.getInvestidor().getNomeCompleto(),
-            ordem.getQuantidadeRestante(), ordem.getPrecoAlvo());
+        LogMercado.registroDeOrdemDeCompra(
+                ordem.getInvestidor().getNomeCompleto(),
+                ordem.getQuantidadeRestante(),
+                ordem.getPrecoAlvo()
+        );
         ordensDeCompra.adicionar(ordem);
         processarOrdens();
     }
 
     /** Registra uma ordem de venda e tenta processar combinações imediatamente. */
     public void registrarOrdemDeVenda(OrdemDeVenda ordem) {
-        LogMercado.registroDeOrdemDeVenda(ordem.getInvestidor().getNomeCompleto(),
-            ordem.getQuantidadeRestante(), ordem.getPrecoAlvo());
+        validarOrdemDeVenda(ordem);
+
+        LogMercado.registroDeOrdemDeVenda(
+                ordem.getInvestidor().getNomeCompleto(),
+                ordem.getQuantidadeRestante(),
+                ordem.getPrecoAlvo()
+        );
         ordensDeVenda.adicionar(ordem);
         processarOrdens();
     }
 
+    private void validarOrdemDeVenda(OrdemDeVenda ordem) {
+        if (!ordem.getInvestidor().possuiAcoesSuficientes(
+                empresa.obterNome(),
+                ordem.getQuantidadeRestante())) {
+            throw new OrdemInvalidaException(
+                    "Investidor " + ordem.getInvestidor().getNomeCompleto()
+                            + " nao possui acoes suficientes de "
+                            + empresa.obterNome().getNome()
+                            + " para registrar ordem de venda de "
+                            + ordem.getQuantidadeRestante() + " acoes."
+            );
+        }
+    }
+
     /**
-     * Verifica se existe combinação possível entre ordens pendentes e, caso exista,
-     * executa a transação e chama a si mesmo recursivamente para processar
-     * possíveis novas combinações resultantes.
+     * Verifica se existe combinação possível entre ordens pendentes e,
+     * enquanto houver, executa as transações correspondentes.
      */
     private void processarOrdens() {
-        combinador.encontrarCombinacao(ordensDeCompra, ordensDeVenda)
-            .ifPresentOrElse(
-                par -> {
-                    executarCombinacao(par);
-                    processarOrdens();
-                },
-                () -> LogMercado.nenhumaCombinacao(empresa.obterNome())
-            );
+        while (true) {
+            var combinacao = combinador.encontrarCombinacao(ordensDeCompra, ordensDeVenda);
+
+            if (combinacao.isEmpty()) {
+                LogMercado.nenhumaCombinacao(empresa.obterNome());
+                break;
+            }
+
+            executarCombinacao(combinacao.get());
+        }
     }
 
     private void executarCombinacao(ParDeOrdens par) {
@@ -93,8 +113,9 @@ public final class LivroDeOrdens {
         QuantidadeAcao quantidadeExecutada = resolverQuantidade(compra, venda);
 
         LogMercado.combinacaoEncontrada(
-            compra.getInvestidor().getNomeCompleto(), compra.getPrecoAlvo(),
-            venda.getInvestidor().getNomeCompleto(), venda.getPrecoAlvo());
+                compra.getInvestidor().getNomeCompleto(), compra.getPrecoAlvo(),
+                venda.getInvestidor().getNomeCompleto(), venda.getPrecoAlvo()
+        );
 
         transferirAcoes(compra.getInvestidor(), venda.getInvestidor(), quantidadeExecutada);
         marcarOrdens(compra, venda, quantidadeExecutada);
@@ -102,8 +123,12 @@ public final class LivroDeOrdens {
         empresa.atualizarPreco(precoDeExecucao);
 
         Transacao transacao = new Transacao(
-            compra.getInvestidor(), venda.getInvestidor(),
-            empresa.obterNome(), precoDeExecucao, quantidadeExecutada);
+                compra.getInvestidor(),
+                venda.getInvestidor(),
+                empresa.obterNome(),
+                precoDeExecucao,
+                quantidadeExecutada
+        );
         transacoes.registrar(transacao);
     }
 
@@ -123,14 +148,20 @@ public final class LivroDeOrdens {
         return compra.getQuantidadeRestante().minimo(venda.getQuantidadeRestante());
     }
 
-    private void transferirAcoes(Investidor comprador, Investidor vendedor,
-                                  QuantidadeAcao quantidade) {
+    private void transferirAcoes(
+            Investidor comprador,
+            Investidor vendedor,
+            QuantidadeAcao quantidade
+    ) {
         vendedor.deduzirAcoes(empresa.obterNome(), quantidade);
         comprador.receberAcoes(empresa.obterNome(), quantidade);
     }
 
-    private void marcarOrdens(OrdemDeCompra compra, OrdemDeVenda venda,
-                               QuantidadeAcao quantidadeExecutada) {
+    private void marcarOrdens(
+            OrdemDeCompra compra,
+            OrdemDeVenda venda,
+            QuantidadeAcao quantidadeExecutada
+    ) {
         compra.deduzirQuantidade(quantidadeExecutada);
         venda.deduzirQuantidade(quantidadeExecutada);
     }
