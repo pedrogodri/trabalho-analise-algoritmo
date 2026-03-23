@@ -1,0 +1,357 @@
+@startuml Diagrama de Classes - Sistema de Bolsa de Valores
+
+skinparam classAttributeIconSize 0
+skinparam classFontSize 13
+skinparam packageFontSize 14
+skinparam linetype ortho
+skinparam groupInheritance 2
+
+' ─────────────────────────────────────────
+' PACOTE: observer (interfaces do padrão Observer)
+' ─────────────────────────────────────────
+package "observer" #EAF4FB {
+
+    interface SujeitoDePreco {
+        + inscrever(observador: ObservadorDePreco): void
+        + desinscrever(observador: ObservadorDePreco): void
+        + notificarObservadores(novoPreco: PrecoAcao): void
+    }
+
+    interface ObservadorDePreco {
+        + aoAtualizarPreco(nomeDaEmpresa: NomeDaEmpresa, novoPreco: PrecoAcao): void
+    }
+}
+
+' ─────────────────────────────────────────
+' PACOTE: mediador
+' ─────────────────────────────────────────
+package "mediador" #FFF8E7 {
+
+    interface AlvoDeAtualizacaoDePreco {
+        + atualizarPreco(novoPreco: PrecoAcao): void
+        + obterNome(): NomeDaEmpresa
+        + possuiPrecoEstabelecido(): boolean
+    }
+
+    class LivroDeOrdens {
+        - empresa: AlvoDeAtualizacaoDePreco
+        - ordensDeCompra: ListaDeOrdens
+        - ordensDeVenda: ListaDeOrdens
+        - transacoes: ListaDeTransacoes
+        - combinador: CombinadorDeOrdens
+        + registrarOrdemDeCompra(ordem: OrdemDeCompra): void
+        + registrarOrdemDeVenda(ordem: OrdemDeVenda): void
+        - processarOrdens(): void
+        - executarCombinacao(par: ParDeOrdens): void
+        - resolverPrecoDeExecucao(compra: OrdemDeCompra, venda: OrdemDeVenda): PrecoAcao
+        - resolverQuantidade(compra: OrdemDeCompra, venda: OrdemDeVenda): QuantidadeAcao
+        - transferirAcoes(comprador: Investidor, vendedor: Investidor, qtd: QuantidadeAcao): void
+        - marcarOrdens(compra: OrdemDeCompra, venda: OrdemDeVenda, qtd: QuantidadeAcao): void
+    }
+
+    class CombinadorDeOrdens {
+        + encontrarCombinacao(ordensDeCompra: ListaDeOrdens, ordensDeVenda: ListaDeOrdens): Optional<ParDeOrdens>
+    }
+
+    class ParDeOrdens {
+        - ordemDeCompra: OrdemDeCompra
+        - ordemDeVenda: OrdemDeVenda
+        + getOrdemDeCompra(): OrdemDeCompra
+        + getOrdemDeVenda(): OrdemDeVenda
+    }
+}
+
+' ─────────────────────────────────────────
+' PACOTE: dominio.acao (Value Objects)
+' ─────────────────────────────────────────
+package "dominio.acao" #F0FFF0 {
+
+    class PrecoAcao {
+        - valor: BigDecimal
+        + PrecoAcao(valor: BigDecimal)
+        + PrecoAcao(valor: String)
+        + eMaiorOuIgualA(outro: PrecoAcao): boolean
+        + exibir(): String
+        + compareTo(outro: PrecoAcao): int
+        + equals(obj: Object): boolean
+        + hashCode(): int
+    }
+
+    class QuantidadeAcao {
+        - quantidade: int
+        + QuantidadeAcao(quantidade: int)
+        + adicionar(outra: QuantidadeAcao): QuantidadeAcao
+        + subtrair(outra: QuantidadeAcao): QuantidadeAcao
+        + minimo(outra: QuantidadeAcao): QuantidadeAcao
+        + eMaiorQue(outra: QuantidadeAcao): boolean
+        + eIgualA(outra: QuantidadeAcao): boolean
+        + getQuantidade(): int
+        + equals(obj: Object): boolean
+        + hashCode(): int
+    }
+}
+
+' ─────────────────────────────────────────
+' PACOTE: dominio.empresa
+' ─────────────────────────────────────────
+package "dominio.empresa" #FFF0F5 {
+
+    class NomeDaEmpresa {
+        - nome: String
+        + NomeDaEmpresa(nome: String)
+        + getNome(): String
+        + equals(obj: Object): boolean
+        + hashCode(): int
+    }
+
+    class Empresa {
+        - nome: NomeDaEmpresa
+        - precoAtual: Optional<PrecoAcao>
+        - observadores: List<ObservadorDePreco>
+        - livroDeOrdens: LivroDeOrdens
+        + Empresa(nome: NomeDaEmpresa)
+        + registrarOrdemDeCompra(ordem: OrdemDeCompra): void
+        + registrarOrdemDeVenda(ordem: OrdemDeVenda): void
+        + exibirPrecoAtual(): void
+        + atualizarPreco(novoPreco: PrecoAcao): void
+        + obterNome(): NomeDaEmpresa
+        + possuiPrecoEstabelecido(): boolean
+        + inscrever(observador: ObservadorDePreco): void
+        + desinscrever(observador: ObservadorDePreco): void
+        + notificarObservadores(novoPreco: PrecoAcao): void
+    }
+
+    class ListaDeEmpresas {
+        - empresas: List<Empresa>
+        + adicionar(empresa: Empresa): void
+        + exibirPrecos(): void
+    }
+}
+
+' ─────────────────────────────────────────
+' PACOTE: dominio.investidor
+' ─────────────────────────────────────────
+package "dominio.investidor" #F5F0FF {
+
+    class NomeDoInvestidor {
+        - nome: String
+        + NomeDoInvestidor(nome: String)
+        + getNome(): String
+        + equals(obj: Object): boolean
+        + hashCode(): int
+    }
+
+    class Carteira {
+        - acoes: Map<NomeDaEmpresa, QuantidadeAcao>
+        + receberAcoes(empresa: NomeDaEmpresa, quantidade: QuantidadeAcao): void
+        + deduzirAcoes(empresa: NomeDaEmpresa, quantidade: QuantidadeAcao): void
+        + possuiAcoesSuficientes(empresa: NomeDaEmpresa, quantidade: QuantidadeAcao): boolean
+        + exibir(proprietario: NomeDoInvestidor): void
+    }
+
+    class Investidor {
+        - nome: NomeDoInvestidor
+        - carteira: Carteira
+        + Investidor(nome: NomeDoInvestidor)
+        + receberAcoes(empresa: NomeDaEmpresa, quantidade: QuantidadeAcao): void
+        + deduzirAcoes(empresa: NomeDaEmpresa, quantidade: QuantidadeAcao): void
+        + possuiAcoesSuficientes(empresa: NomeDaEmpresa, quantidade: QuantidadeAcao): boolean
+        + getNome(): NomeDoInvestidor
+        + exibirCarteira(): void
+        + aoAtualizarPreco(nomeDaEmpresa: NomeDaEmpresa, novoPreco: PrecoAcao): void
+    }
+
+    class ListaDeInvestidores {
+        - investidores: List<Investidor>
+        + adicionar(investidor: Investidor): void
+        + exibirCarteiras(): void
+    }
+}
+
+' ─────────────────────────────────────────
+' PACOTE: dominio.ordem
+' ─────────────────────────────────────────
+package "dominio.ordem" #FFF5E0 {
+
+    enum TipoOrdem {
+        COMPRA
+        VENDA
+    }
+
+    enum StatusOrdem {
+        PENDENTE
+        EXECUTADA
+    }
+
+    abstract class Ordem {
+        - investidor: Investidor
+        - precoAlvo: PrecoAcao
+        - quantidadeRestante: QuantidadeAcao
+        - status: StatusOrdem
+        - tipoOrdem: TipoOrdem
+        + Ordem(investidor, precoAlvo, quantidade, direcao)
+        + getInvestidor(): Investidor
+        + getPrecoAlvo(): PrecoAcao
+        + getQuantidadeRestante(): QuantidadeAcao
+        + getDirecao(): TipoOrdem
+        + estaPendente(): boolean
+        + deduzirQuantidade(quantidadeExecutada: QuantidadeAcao): void
+    }
+
+    class OrdemDeCompra {
+        + OrdemDeCompra(investidor, precoAlvo, quantidade)
+    }
+
+    class OrdemDeVenda {
+        + OrdemDeVenda(investidor, precoAlvo, quantidade)
+    }
+
+    class ListaDeOrdens {
+        - ordens: List<Ordem>
+        + adicionar(ordem: Ordem): void
+        + ordenadosPorPrecoDecrescente(): ListaDeOrdens
+        + encontrarVendaComPrecoAteMáximo(precoMaximo: PrecoAcao): Optional<OrdemDeVenda>
+        + comoLista(): List<Ordem>
+        + estaVazia(): boolean
+        - filtrarPendentes(): List<Ordem>
+    }
+}
+
+' ─────────────────────────────────────────
+' PACOTE: dominio.transacao
+' ─────────────────────────────────────────
+package "dominio.transacao" #F0F8FF {
+
+    class Transacao {
+        - comprador: Investidor
+        - vendedor: Investidor
+        - empresa: NomeDaEmpresa
+        - precoExecutado: PrecoAcao
+        - quantidadeExecutada: QuantidadeAcao
+        - momento: LocalDateTime
+        + Transacao(comprador, vendedor, empresa, precoExecutado, quantidadeExecutada)
+        + exibir(): void
+    }
+
+    class ListaDeTransacoes {
+        - transacoes: List<Transacao>
+        + registrar(transacao: Transacao): void
+        + getTotal(): int
+    }
+}
+
+' ─────────────────────────────────────────
+' PACOTE: simulacao
+' ─────────────────────────────────────────
+package "simulacao" #F9F9F9 {
+
+    class FabricaDeDadosMock {
+        + {static} criarPetrobrasSA(): Empresa
+        + {static} criarValeSA(): Empresa
+        + {static} criarAlice(): Investidor
+        + {static} criarBob(): Investidor
+        + {static} criarCarol(): Investidor
+        + {static} criarDave(): Investidor
+    }
+
+    class SimulacaoDoMercado {
+        - petrobrasSA: Empresa
+        - valeSA: Empresa
+        - alice: Investidor
+        - bob: Investidor
+        - carol: Investidor
+        - dave: Investidor
+        - empresas: ListaDeEmpresas
+        - investidores: ListaDeInvestidores
+        + SimulacaoDoMercado()
+        + executar(): void
+        - configurarInscricoes(): void
+        - configurarCarteiraInicialDeDave(): void
+        - executarPassoUm(): void
+        - executarPassoDois(): void
+        - executarPassoTres(): void
+        - executarPassoQuatro(): void
+        - executarPassoCinco(): void
+        - executarPassoSeis(): void
+        - exibirResultadosFinais(): void
+    }
+}
+
+' ─────────────────────────────────────────
+' RELAÇÕES — Herança e Implementação
+' ─────────────────────────────────────────
+
+' Herança de Ordem
+Ordem <|-- OrdemDeCompra
+Ordem <|-- OrdemDeVenda
+
+' Empresa implementa as duas interfaces
+SujeitoDePreco <|.. Empresa
+AlvoDeAtualizacaoDePreco <|.. Empresa
+
+' Investidor implementa Observer
+ObservadorDePreco <|.. Investidor
+
+' ─────────────────────────────────────────
+' RELAÇÕES — Composição e Associação
+' ─────────────────────────────────────────
+
+' Empresa compõe
+Empresa *-- NomeDaEmpresa : nome
+Empresa *-- LivroDeOrdens : livroDeOrdens
+Empresa o-- ObservadorDePreco : observadores
+
+' LivroDeOrdens compõe
+LivroDeOrdens *-- ListaDeOrdens : ordensDeCompra
+LivroDeOrdens *-- ListaDeOrdens : ordensDeVenda
+LivroDeOrdens *-- ListaDeTransacoes : transacoes
+LivroDeOrdens *-- CombinadorDeOrdens : combinador
+LivroDeOrdens --> AlvoDeAtualizacaoDePreco : empresa
+
+' CombinadorDeOrdens usa
+CombinadorDeOrdens ..> ParDeOrdens : cria
+CombinadorDeOrdens ..> ListaDeOrdens : consulta
+
+' ParDeOrdens referencia ordens
+ParDeOrdens --> OrdemDeCompra
+ParDeOrdens --> OrdemDeVenda
+
+' Ordem referencia
+Ordem --> Investidor : investidor
+Ordem --> PrecoAcao : precoAlvo
+Ordem --> QuantidadeAcao : quantidadeRestante
+Ordem --> StatusOrdem
+Ordem --> TipoOrdem
+
+' ListaDeOrdens agrega
+ListaDeOrdens o-- Ordem : ordens
+
+' Investidor compõe
+Investidor *-- NomeDoInvestidor : nome
+Investidor *-- Carteira : carteira
+
+' Carteira referencia
+Carteira --> NomeDaEmpresa : chave
+Carteira --> QuantidadeAcao : valor
+
+' Transacao referencia
+Transacao --> Investidor : comprador / vendedor
+Transacao --> NomeDaEmpresa : empresa
+Transacao --> PrecoAcao : precoExecutado
+Transacao --> QuantidadeAcao : quantidadeExecutada
+
+' ListaDeTransacoes agrega
+ListaDeTransacoes o-- Transacao
+
+' First-class collections
+ListaDeEmpresas o-- Empresa
+ListaDeInvestidores o-- Investidor
+
+' Simulação usa fábrica e agrega tudo
+SimulacaoDoMercado ..> FabricaDeDadosMock : usa
+SimulacaoDoMercado --> Empresa
+SimulacaoDoMercado --> Investidor
+SimulacaoDoMercado --> ListaDeEmpresas
+SimulacaoDoMercado --> ListaDeInvestidores
+
+@enduml
