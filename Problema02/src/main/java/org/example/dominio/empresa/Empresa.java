@@ -2,11 +2,11 @@ package org.example.dominio.empresa;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.example.dominio.acao.PrecoAcao;
 import org.example.dominio.ordem.OrdemDeCompra;
 import org.example.dominio.ordem.OrdemDeVenda;
+import org.example.infra.LogMercado;
 import org.example.mediador.AlvoDeAtualizacaoDePreco;
 import org.example.mediador.LivroDeOrdens;
 import org.example.observer.ObservadorDePreco;
@@ -19,7 +19,7 @@ import org.example.observer.SujeitoDePreco;
  * investidores inscritos a cada mudança de preço, e {@link AlvoDeAtualizacaoDePreco}
  * para receber atualizações do {@link LivroDeOrdens} sem criar dependência circular.</p>
  *
- * <p><b>Evolução do preço</b>: o preço começa como {@link Optional#empty()}.
+ * <p><b>Evolução do preço</b>: o preço começa como {@code null} (sem valor de mercado).
  * Ele é definido pela primeira transação executada no livro de ordens.
  * A partir daí, cada nova transação substituirá o preço anterior e
  * notificará todos os observadores inscritos.</p>
@@ -27,13 +27,13 @@ import org.example.observer.SujeitoDePreco;
 public final class Empresa implements SujeitoDePreco, AlvoDeAtualizacaoDePreco {
 
     private final NomeDaEmpresa nome;
-    private Optional<PrecoAcao> precoAtual;
+    private PrecoAcao precoAtual;
     private final List<ObservadorDePreco> observadores;
     private final LivroDeOrdens livroDeOrdens;
 
     public Empresa(NomeDaEmpresa nome) {
         this.nome = nome;
-        this.precoAtual = Optional.empty();
+        this.precoAtual = null;
         this.observadores = new ArrayList<>();
         this.livroDeOrdens = new LivroDeOrdens(this);
     }
@@ -50,24 +50,28 @@ public final class Empresa implements SujeitoDePreco, AlvoDeAtualizacaoDePreco {
 
     /** Exibe o preço atual no console. */
     public void exibirPrecoAtual() {
-        precoAtual.ifPresentOrElse(
-            preco -> System.out.println("  " + nome.getNome() + ": " + preco.exibir()),
-            () -> System.out.println("  " + nome.getNome() + ": (preco ainda nao estabelecido)")
-        );
+        if (possuiPrecoEstabelecido()) {
+            LogMercado.precoAtualizado(nome, precoAtual);
+            return;
+        }
+        LogMercado.semPrecoEstabelecido(nome);
     }
 
     // --- AlvoDeAtualizacaoDePreco ---
 
-    /**
-     * Atualiza o preço da ação e notifica todos os observadores inscritos.
-     * Chamado pelo {@link LivroDeOrdens} após cada transação.
-     */
     @Override
     public void atualizarPreco(PrecoAcao novoPreco) {
-        String estado = possuiPrecoEstabelecido() ? "atualizado para" : "estabelecido em";
-        precoAtual = Optional.of(novoPreco);
-        System.out.println("[PRECO] " + nome.getNome() + " " + estado + " " + novoPreco.exibir());
+        registrarAtualizacaoDePreco(novoPreco);
+        precoAtual = novoPreco;
         notificarObservadores(novoPreco);
+    }
+
+    private void registrarAtualizacaoDePreco(PrecoAcao novoPreco) {
+        if (possuiPrecoEstabelecido()) {
+            LogMercado.precoAtualizado(nome, novoPreco);
+            return;
+        }
+        LogMercado.precoEstabelecido(nome, novoPreco);
     }
 
     @Override
@@ -77,7 +81,7 @@ public final class Empresa implements SujeitoDePreco, AlvoDeAtualizacaoDePreco {
 
     @Override
     public boolean possuiPrecoEstabelecido() {
-        return precoAtual.isPresent();
+        return precoAtual != null;
     }
 
     // --- SujeitoDePreco ---
@@ -92,10 +96,6 @@ public final class Empresa implements SujeitoDePreco, AlvoDeAtualizacaoDePreco {
         observadores.remove(observador);
     }
 
-    /**
-     * Notifica cada observador inscrito com o novo preço.
-     * Chamado internamente após cada atualização; não deve ser invocado externamente.
-     */
     @Override
     public void notificarObservadores(PrecoAcao novoPreco) {
         observadores.forEach(observador -> observador.aoAtualizarPreco(nome, novoPreco));

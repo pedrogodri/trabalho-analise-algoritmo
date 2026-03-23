@@ -7,6 +7,7 @@ import org.example.dominio.acao.PrecoAcao;
 import org.example.dominio.acao.QuantidadeAcao;
 import org.example.dominio.empresa.NomeDaEmpresa;
 import org.example.dominio.investidor.Investidor;
+import org.example.infra.LogMercado;
 
 /**
  * Registro imutável de uma transação concluída entre dois investidores.
@@ -36,10 +37,7 @@ public final class Transacao {
 
     public void exibir() {
         String horario = momento.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
-        System.out.println("[TRANSACAO] " + horario
-            + " | " + empresa.getNome()
-            + " | " + quantidadeExecutada + " acoes @ " + precoExecutado.exibir()
-            + " | Comprador: " + comprador.getNome().getNome()
-            + " | Vendedor: " + vendedor.getNome().getNome());
+        LogMercado.transacaoExecutada(horario, empresa, quantidadeExecutada,
+            precoExecutado, comprador.getNomeCompleto(), vendedor.getNomeCompleto());
     }
 }

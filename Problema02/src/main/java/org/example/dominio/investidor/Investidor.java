@@ -3,6 +3,7 @@ package org.example.dominio.investidor;
 import org.example.dominio.acao.PrecoAcao;
 import org.example.dominio.acao.QuantidadeAcao;
 import org.example.dominio.empresa.NomeDaEmpresa;
+import org.example.infra.LogMercado;
 import org.example.observer.ObservadorDePreco;
 
 /**
@@ -47,6 +48,11 @@ public final class Investidor implements ObservadorDePreco {
         return nome;
     }
 
+    /** Retorna o nome textual do investidor. Evita cadeias nome.getNome() externamente. */
+    public String getNomeCompleto() {
+        return nome.getNome();
+    }
+
     /** Exibe o conteúdo da carteira no console. */
     public void exibirCarteira() {
         carteira.exibir(nome);
@@ -58,8 +64,6 @@ public final class Investidor implements ObservadorDePreco {
      */
     @Override
     public void aoAtualizarPreco(NomeDaEmpresa nomeDaEmpresa, PrecoAcao novoPreco) {
-        System.out.println("[NOTIFICACAO] " + nome.getNome()
-            + " <- " + nomeDaEmpresa.getNome()
-            + " atualizada para " + novoPreco.exibir());
+        LogMercado.notificacaoDePreco(getNomeCompleto(), nomeDaEmpresa, novoPreco);
     }
 }

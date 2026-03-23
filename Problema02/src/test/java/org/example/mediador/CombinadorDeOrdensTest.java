@@ -94,6 +94,6 @@ class CombinadorDeOrdensTest {
         Optional<ParDeOrdens> resultado = combinador.encontrarCombinacao(compras, vendas);
         assertTrue(resultado.isPresent());
         assertEquals("CompradorB",
-            resultado.get().getOrdemDeCompra().getInvestidor().getNome().getNome());
+            resultado.get().getOrdemDeCompra().getInvestidor().getNomeCompleto());
     }
 }

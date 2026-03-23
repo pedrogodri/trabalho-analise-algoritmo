@@ -59,16 +59,19 @@ public abstract class Ordem {
      */
     public void deduzirQuantidade(QuantidadeAcao quantidadeExecutada) {
         if (quantidadeRestante.eIgualA(quantidadeExecutada)) {
-            quantidadeRestante = new QuantidadeAcao(1);
-            status = StatusOrdem.EXECUTADA;
+            marcarComoExecutada();
             return;
         }
         quantidadeRestante = quantidadeRestante.subtrair(quantidadeExecutada);
     }
 
+    private void marcarComoExecutada() {
+        status = StatusOrdem.EXECUTADA;
+    }
+
     @Override
     public String toString() {
-        return tipoOrdem + " " + investidor.getNome().getNome()
+        return tipoOrdem + " " + investidor.getNomeCompleto()
             + " @ " + precoAlvo.exibir()
             + " x" + quantidadeRestante + " [" + status + "]";
     }
