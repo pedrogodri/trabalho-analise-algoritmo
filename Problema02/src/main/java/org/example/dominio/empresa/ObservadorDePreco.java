@@ -1,7 +1,6 @@
-package org.example.observer;
+package org.example.dominio.empresa;
 
 import org.example.dominio.acao.PrecoAcao;
-import org.example.dominio.empresa.NomeDaEmpresa;
 
 /**
  * Contrato do lado Observer no padrão Observer.

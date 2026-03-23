@@ -1,11 +1,9 @@
-package org.example.mediador;
+package org.example.dominio.ordem;
 
 import org.example.dominio.acao.PrecoAcao;
 import org.example.dominio.acao.QuantidadeAcao;
+import org.example.dominio.empresa.AlvoDeAtualizacaoDePreco;
 import org.example.dominio.investidor.Investidor;
-import org.example.dominio.ordem.ListaDeOrdens;
-import org.example.dominio.ordem.OrdemDeCompra;
-import org.example.dominio.ordem.OrdemDeVenda;
 import org.example.dominio.transacao.ListaDeTransacoes;
 import org.example.dominio.transacao.Transacao;
 import org.example.excecao.OrdemInvalidaException;
@@ -52,25 +50,23 @@ public final class LivroDeOrdens {
 
     /** Registra uma ordem de compra e tenta processar combinações imediatamente. */
     public void registrarOrdemDeCompra(OrdemDeCompra ordem) {
-        LogMercado.registroDeOrdemDeCompra(
-                ordem.getInvestidor().getNomeCompleto(),
-                ordem.getQuantidadeRestante(),
-                ordem.getPrecoAlvo()
-        );
-        ordensDeCompra.adicionar(ordem);
-        processarOrdens();
+        adicionarEProcessar(ordem, ordensDeCompra);
     }
 
     /** Registra uma ordem de venda e tenta processar combinações imediatamente. */
     public void registrarOrdemDeVenda(OrdemDeVenda ordem) {
         validarOrdemDeVenda(ordem);
+        adicionarEProcessar(ordem, ordensDeVenda);
+    }
 
-        LogMercado.registroDeOrdemDeVenda(
+    private void adicionarEProcessar(Ordem ordem, ListaDeOrdens lista) {
+        LogMercado.registroDeOrdem(
                 ordem.getInvestidor().getNomeCompleto(),
                 ordem.getQuantidadeRestante(),
-                ordem.getPrecoAlvo()
+                ordem.getPrecoAlvo(),
+                ordem.getDirecao()
         );
-        ordensDeVenda.adicionar(ordem);
+        lista.adicionar(ordem);
         processarOrdens();
     }
 

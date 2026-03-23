@@ -39,12 +39,12 @@ public final class SimulacaoDoMercado {
     private final ListaDeInvestidores investidores;
 
     public SimulacaoDoMercado() {
-        petrobrasSA = FabricaDeDadosMock.criarPetrobrasSA();
-        valeSA = FabricaDeDadosMock.criarValeSA();
-        alice = FabricaDeDadosMock.criarAlice();
-        bob = FabricaDeDadosMock.criarBob();
-        carol = FabricaDeDadosMock.criarCarol();
-        dave = FabricaDeDadosMock.criarDave();
+        petrobrasSA = FabricaDeDadosMock.criarEmpresa("PetrobrasSA");
+        valeSA = FabricaDeDadosMock.criarEmpresa("ValeSA");
+        alice = FabricaDeDadosMock.criarInvestidor("Alice");
+        bob = FabricaDeDadosMock.criarInvestidor("Bob");
+        carol = FabricaDeDadosMock.criarInvestidor("Carol");
+        dave = FabricaDeDadosMock.criarInvestidor("Dave");
 
         empresas = new ListaDeEmpresas();
         empresas.adicionar(petrobrasSA);

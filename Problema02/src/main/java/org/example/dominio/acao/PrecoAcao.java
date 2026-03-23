@@ -34,7 +34,7 @@ public final class PrecoAcao implements Comparable<PrecoAcao> {
      * uma compra é elegível quando seu preço >= preço de venda.
      */
     public boolean eMaiorOuIgualA(PrecoAcao outro) {
-        return this.valor.compareTo(outro.valor) >= 0;
+        return compareTo(outro) >= 0;
     }
 
     /**

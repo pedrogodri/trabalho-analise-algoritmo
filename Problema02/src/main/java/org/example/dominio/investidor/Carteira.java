@@ -71,7 +71,7 @@ public final class Carteira {
         if (saldo == null) {
             return false;
         }
-        return saldo.eIgualA(quantidade) || saldo.eMaiorQue(quantidade);
+        return saldo.eMaiorOuIgualA(quantidade);
     }
 
     /** Exibe o conteúdo da carteira no console. */

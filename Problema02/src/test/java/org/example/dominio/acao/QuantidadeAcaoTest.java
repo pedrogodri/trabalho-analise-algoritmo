@@ -1,7 +1,9 @@
 package org.example.dominio.acao;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 class QuantidadeAcaoTest {
@@ -71,5 +73,41 @@ class QuantidadeAcaoTest {
         assertEquals("120", quantidade.toString());
     }
 
+    @Test
+    void deveRetornarVerdadeiroParaMaiorOuIgualQuandoMaior() {
+        QuantidadeAcao cem = new QuantidadeAcao(100);
+        QuantidadeAcao cinquenta = new QuantidadeAcao(50);
+        assertTrue(cem.eMaiorOuIgualA(cinquenta));
+    }
 
+    @Test
+    void deveRetornarVerdadeiroParaMaiorOuIgualQuandoIgual() {
+        QuantidadeAcao q1 = new QuantidadeAcao(100);
+        QuantidadeAcao q2 = new QuantidadeAcao(100);
+        assertTrue(q1.eMaiorOuIgualA(q2));
+    }
+
+    @Test
+    void deveRetornarFalsoParaMaiorOuIgualQuandoMenor() {
+        QuantidadeAcao cinquenta = new QuantidadeAcao(50);
+        QuantidadeAcao cem = new QuantidadeAcao(100);
+        assertFalse(cinquenta.eMaiorOuIgualA(cem));
+    }
+
+    @Test
+    void deveCompararQuantidadesCorretamente() {
+        QuantidadeAcao menor = new QuantidadeAcao(10);
+        QuantidadeAcao maior = new QuantidadeAcao(20);
+
+        assertTrue(menor.compareTo(maior) < 0);
+        assertTrue(maior.compareTo(menor) > 0);
+        assertEquals(0, menor.compareTo(new QuantidadeAcao(10)));
+    }
+
+    @Test
+    void deveRetornarMinimoQuandoPrimeiraMenor() {
+        QuantidadeAcao dez = new QuantidadeAcao(10);
+        QuantidadeAcao cem = new QuantidadeAcao(100);
+        assertEquals(dez, dez.minimo(cem));
+    }
 }

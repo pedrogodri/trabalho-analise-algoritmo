@@ -4,7 +4,7 @@ import org.example.dominio.acao.PrecoAcao;
 import org.example.dominio.acao.QuantidadeAcao;
 import org.example.dominio.empresa.NomeDaEmpresa;
 import org.example.infra.LogMercado;
-import org.example.observer.ObservadorDePreco;
+import org.example.dominio.empresa.ObservadorDePreco;
 
 /**
  * Representa um participante do mercado que pode comprar e vender ações.

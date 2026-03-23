@@ -3,6 +3,7 @@ package org.example.infra;
 import org.example.dominio.acao.PrecoAcao;
 import org.example.dominio.acao.QuantidadeAcao;
 import org.example.dominio.empresa.NomeDaEmpresa;
+import org.example.dominio.ordem.TipoOrdem;
 
 /**
  * Centraliza todas as mensagens de saída do mercado.
@@ -19,18 +20,12 @@ public final class LogMercado {
 
     // ── Ordens ──────────────────────────────────────────────────────────────
 
-    public static void registroDeOrdemDeCompra(String nomeInvestidor,
-                                                QuantidadeAcao quantidade,
-                                                PrecoAcao preco) {
+    public static void registroDeOrdem(String nomeInvestidor,
+                                        QuantidadeAcao quantidade,
+                                        PrecoAcao preco,
+                                        TipoOrdem tipo) {
         System.out.println("[MERCADO] " + nomeInvestidor
-            + " registra COMPRA " + quantidade + " @ " + preco.exibir());
-    }
-
-    public static void registroDeOrdemDeVenda(String nomeInvestidor,
-                                               QuantidadeAcao quantidade,
-                                               PrecoAcao preco) {
-        System.out.println("[MERCADO] " + nomeInvestidor
-            + " registra VENDA " + quantidade + " @ " + preco.exibir());
+            + " registra " + tipo + " " + quantidade + " @ " + preco.exibir());
     }
 
     public static void nenhumaCombinacao(NomeDaEmpresa empresa) {

@@ -1,13 +1,12 @@
-package org.example.mediador;
+package org.example.dominio.empresa;
 
 import org.example.dominio.acao.PrecoAcao;
-import org.example.dominio.empresa.NomeDaEmpresa;
 
 /**
  * Interface que permite ao {@code LivroDeOrdens} atualizar o preço da empresa
  * sem depender diretamente da classe {@code Empresa}.
  *
- * <p>Quebra a dependência circular entre {@code mediador} e {@code dominio.empresa}:
+ * <p>Quebra a dependência entre {@code dominio.ordem} e {@code dominio.empresa}:
  * o livro de ordens só conhece este contrato; a empresa o implementa.</p>
  */
 public interface AlvoDeAtualizacaoDePreco {

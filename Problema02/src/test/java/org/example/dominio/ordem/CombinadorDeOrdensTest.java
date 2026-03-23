@@ -1,4 +1,4 @@
-package org.example.mediador;
+package org.example.dominio.ordem;
 
 import java.util.Optional;
 
@@ -6,9 +6,6 @@ import org.example.dominio.acao.PrecoAcao;
 import org.example.dominio.acao.QuantidadeAcao;
 import org.example.dominio.investidor.Investidor;
 import org.example.dominio.investidor.NomeDoInvestidor;
-import org.example.dominio.ordem.ListaDeOrdens;
-import org.example.dominio.ordem.OrdemDeCompra;
-import org.example.dominio.ordem.OrdemDeVenda;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

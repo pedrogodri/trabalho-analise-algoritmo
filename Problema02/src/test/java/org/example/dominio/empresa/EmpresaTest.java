@@ -86,7 +86,7 @@ class EmpresaTest {
     @Test
     void deveDesinscrevirObservador() {
         List<String> notificacoes = new ArrayList<>();
-        var observador = (org.example.observer.ObservadorDePreco)
+        var observador = (ObservadorDePreco)
             (nomeEmpresa, novoPreco) -> notificacoes.add("notificado");
 
         empresa.inscrever(observador);
@@ -103,7 +103,7 @@ class EmpresaTest {
     @Test
     void naoDeveNotificarObservadorDuplicadoDuasVezes() {
         List<String> notificacoes = new ArrayList<>();
-        var observador = (org.example.observer.ObservadorDePreco)
+        var observador = (ObservadorDePreco)
                 (nomeEmpresa, novoPreco) -> notificacoes.add("notificado");
 
         empresa.inscrever(observador);

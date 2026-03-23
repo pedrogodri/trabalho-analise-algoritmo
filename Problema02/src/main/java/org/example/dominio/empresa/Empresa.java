@@ -4,13 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.example.dominio.acao.PrecoAcao;
+import org.example.dominio.ordem.LivroDeOrdens;
 import org.example.dominio.ordem.OrdemDeCompra;
 import org.example.dominio.ordem.OrdemDeVenda;
 import org.example.infra.LogMercado;
-import org.example.mediador.AlvoDeAtualizacaoDePreco;
-import org.example.mediador.LivroDeOrdens;
-import org.example.observer.ObservadorDePreco;
-import org.example.observer.SujeitoDePreco;
 
 /**
  * Representa uma empresa no mercado de ações.
@@ -57,8 +54,6 @@ public final class Empresa implements SujeitoDePreco, AlvoDeAtualizacaoDePreco {
         LogMercado.semPrecoEstabelecido(nome);
     }
 
-    // --- AlvoDeAtualizacaoDePreco ---
-
     @Override
     public void atualizarPreco(PrecoAcao novoPreco) {
         registrarAtualizacaoDePreco(novoPreco);
@@ -83,8 +78,6 @@ public final class Empresa implements SujeitoDePreco, AlvoDeAtualizacaoDePreco {
     public boolean possuiPrecoEstabelecido() {
         return precoAtual != null;
     }
-
-    // --- SujeitoDePreco ---
 
     @Override
     public void inscrever(ObservadorDePreco observador) {

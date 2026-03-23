@@ -1,7 +1,4 @@
-package org.example.mediador;
-
-import org.example.dominio.ordem.OrdemDeCompra;
-import org.example.dominio.ordem.OrdemDeVenda;
+package org.example.dominio.ordem;
 
 /**
  * Representa um par de ordens compatíveis encontrado pelo {@code CombinadorDeOrdens}.

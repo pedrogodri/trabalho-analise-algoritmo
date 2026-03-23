@@ -11,31 +11,13 @@ import org.example.dominio.investidor.NomeDoInvestidor;
  */
 public final class FabricaDeDadosMock {
 
-    private FabricaDeDadosMock() {
-        // utilitário estático — não instanciável
+    private FabricaDeDadosMock() {}
+
+    public static Empresa criarEmpresa(String nome) {
+        return new Empresa(new NomeDaEmpresa(nome));
     }
 
-    public static Empresa criarPetrobrasSA() {
-        return new Empresa(new NomeDaEmpresa("PetrobrasSA"));
-    }
-
-    public static Empresa criarValeSA() {
-        return new Empresa(new NomeDaEmpresa("ValeSA"));
-    }
-
-    public static Investidor criarAlice() {
-        return new Investidor(new NomeDoInvestidor("Alice"));
-    }
-
-    public static Investidor criarBob() {
-        return new Investidor(new NomeDoInvestidor("Bob"));
-    }
-
-    public static Investidor criarCarol() {
-        return new Investidor(new NomeDoInvestidor("Carol"));
-    }
-
-    public static Investidor criarDave() {
-        return new Investidor(new NomeDoInvestidor("Dave"));
+    public static Investidor criarInvestidor(String nome) {
+        return new Investidor(new NomeDoInvestidor(nome));
     }
 }

@@ -1,12 +1,5 @@
-package org.example.mediador;
+package org.example.dominio.ordem;
 
-import org.example.dominio.acao.PrecoAcao;
-import org.example.dominio.ordem.ListaDeOrdens;
-import org.example.dominio.ordem.Ordem;
-import org.example.dominio.ordem.OrdemDeCompra;
-import org.example.dominio.ordem.OrdemDeVenda;
-
-import java.util.List;
 import java.util.Optional;
 
 /**
@@ -41,19 +34,13 @@ public final class CombinadorDeOrdens {
      */
     public Optional<ParDeOrdens> encontrarCombinacao(ListaDeOrdens ordensDeCompra,
                                                       ListaDeOrdens ordensDeVenda) {
-        ListaDeOrdens comprasOrdenadas = ordensDeCompra.ordenadosPorPrecoDecrescente();
-        List<Ordem> listaDeCompras = comprasOrdenadas.comoLista();
-
-        for (Ordem ordemAtual : listaDeCompras) {
-            OrdemDeCompra compra = (OrdemDeCompra) ordemAtual;
-            PrecoAcao precoMaximoDoComprador = compra.getPrecoAlvo();
-            Optional<OrdemDeVenda> vendaCompativel =
-                ordensDeVenda.encontrarVendaComPrecoAteMáximo(precoMaximoDoComprador);
-
-            if (vendaCompativel.isPresent()) {
-                return Optional.of(new ParDeOrdens(compra, vendaCompativel.get()));
-            }
-        }
-        return Optional.empty();
+        return ordensDeCompra.ordenadosPorPrecoDecrescente().comoLista().stream()
+                .filter(OrdemDeCompra.class::isInstance)
+                .map(OrdemDeCompra.class::cast)
+                .flatMap(compra -> ordensDeVenda
+                        .encontrarVendaComPrecoAteMáximo(compra.getPrecoAlvo())
+                        .map(venda -> new ParDeOrdens(compra, venda))
+                        .stream())
+                .findFirst();
     }
 }

@@ -1,12 +1,11 @@
-package org.example.mediador;
+package org.example.dominio.ordem;
 
 import org.example.dominio.acao.PrecoAcao;
 import org.example.dominio.acao.QuantidadeAcao;
+import org.example.dominio.empresa.AlvoDeAtualizacaoDePreco;
 import org.example.dominio.empresa.NomeDaEmpresa;
 import org.example.dominio.investidor.Investidor;
 import org.example.dominio.investidor.NomeDoInvestidor;
-import org.example.dominio.ordem.OrdemDeCompra;
-import org.example.dominio.ordem.OrdemDeVenda;
 import org.example.excecao.OrdemInvalidaException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

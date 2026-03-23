@@ -1,4 +1,4 @@
-package org.example.observer;
+package org.example.dominio.empresa;
 
 import org.example.dominio.acao.PrecoAcao;
 

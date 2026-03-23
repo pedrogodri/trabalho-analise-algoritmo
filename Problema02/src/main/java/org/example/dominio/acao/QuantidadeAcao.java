@@ -6,7 +6,7 @@ package org.example.dominio.acao;
  * <p>Imutável. Toda quantidade deve ser positiva; o construtor
  * rejeita valores zero ou negativos.</p>
  */
-public final class QuantidadeAcao {
+public final class QuantidadeAcao implements Comparable<QuantidadeAcao> {
 
     private final int quantidade;
 
@@ -39,16 +39,21 @@ public final class QuantidadeAcao {
         return new QuantidadeAcao(Math.min(this.quantidade, outra.quantidade));
     }
 
-    public boolean eMaiorQue(QuantidadeAcao outra) {
-        return this.quantidade > outra.quantidade;
+    public boolean eMaiorOuIgualA(QuantidadeAcao outra) {
+        return compareTo(outra) >= 0;
     }
 
     public boolean eIgualA(QuantidadeAcao outra) {
-        return this.quantidade == outra.quantidade;
+        return equals(outra);
     }
 
     public int getQuantidade() {
         return quantidade;
+    }
+
+    @Override
+    public int compareTo(QuantidadeAcao outra) {
+        return Integer.compare(this.quantidade, outra.quantidade);
     }
 
     @Override
