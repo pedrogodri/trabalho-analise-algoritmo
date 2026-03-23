@@ -1,0 +1,465 @@
+<mxfile host="app.diagrams.net" modified="2026-03-23" version="21.0.0">
+  <diagram name="Bolsa de Valores" id="bolsa-uml">
+    <mxGraphModel dx="1800" dy="1000" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2400" pageHeight="1600" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        
+
+        <mxCell id="SujeitoDePreco" value="«interface»&#xa;SujeitoDePreco" style="text;html=1;strokeColor=#006EAF;fontColor=#006EAF;fillColor=#dae8fc;align=center;verticalAlign=top;spacingTop=0;fontSize=13;fontStyle=1;shape=mxgraph.uml.interface;perimeter=mxPerimeter.RectanglePerimeter;" vertex="1" parent="1">
+          <mxGeometry x="80" y="80" width="240" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="SujeitoDePreco_methods" value="+ inscrever(observador: ObservadorDePreco): void&#xa;+ desinscrever(observador: ObservadorDePreco): void&#xa;+ notificarObservadores(novoPreco: PrecoAcao): void" style="text;html=1;strokeColor=#006EAF;fillColor=#dae8fc;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="80" y="150" width="240" height="60" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ObservadorDePreco" value="«interface»&#xa;ObservadorDePreco" style="text;html=1;strokeColor=#006EAF;fontColor=#006EAF;fillColor=#dae8fc;align=center;verticalAlign=top;spacingTop=0;fontSize=13;fontStyle=1;shape=mxgraph.uml.interface;perimeter=mxPerimeter.RectanglePerimeter;" vertex="1" parent="1">
+          <mxGeometry x="380" y="80" width="260" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="ObservadorDePreco_methods" value="+ aoAtualizarPreco(nomeDaEmpresa: NomeDaEmpresa,&#xa;    novoPreco: PrecoAcao): void" style="text;html=1;strokeColor=#006EAF;fillColor=#dae8fc;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="380" y="150" width="260" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="AlvoDeAtualizacaoDePreco" value="«interface»&#xa;AlvoDeAtualizacaoDePreco" style="text;html=1;strokeColor=#006EAF;fontColor=#006EAF;fillColor=#dae8fc;align=center;verticalAlign=top;spacingTop=0;fontSize=13;fontStyle=1;shape=mxgraph.uml.interface;perimeter=mxPerimeter.RectanglePerimeter;" vertex="1" parent="1">
+          <mxGeometry x="700" y="80" width="280" height="110" as="geometry" />
+        </mxCell>
+        <mxCell id="AlvoDeAtualizacaoDePreco_methods" value="+ atualizarPreco(novoPreco: PrecoAcao): void&#xa;+ obterNome(): NomeDaEmpresa&#xa;+ possuiPrecoEstabelecido(): boolean" style="text;html=1;strokeColor=#006EAF;fillColor=#dae8fc;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="700" y="150" width="280" height="50" as="geometry" />
+        </mxCell>
+
+        
+
+        <mxCell id="TipoOrdem" value="«enumeration»&#xa;TipoOrdem" style="text;html=1;strokeColor=#36393d;fontColor=#36393d;fillColor=#f5f5f5;align=center;verticalAlign=top;spacingTop=0;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="80" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="TipoOrdem_vals" value="COMPRA&#xa;VENDA" style="text;html=1;strokeColor=#36393d;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="130" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        <mxCell id="StatusOrdem" value="«enumeration»&#xa;StatusOrdem" style="text;html=1;strokeColor=#36393d;fontColor=#36393d;fillColor=#f5f5f5;align=center;verticalAlign=top;spacingTop=0;fontSize=13;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="80" width="160" height="50" as="geometry" />
+        </mxCell>
+        <mxCell id="StatusOrdem_vals" value="PENDENTE&#xa;EXECUTADA" style="text;html=1;strokeColor=#36393d;fillColor=#f5f5f5;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="130" width="160" height="40" as="geometry" />
+        </mxCell>
+
+        
+
+        <mxCell id="Empresa" value="Empresa" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="80" y="310" width="280" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="Empresa_fields" value="- nome: NomeDaEmpresa&#xa;- precoAtual: PrecoAcao&#xa;- observadores: List&lt;ObservadorDePreco&gt;&#xa;- livroDeOrdens: LivroDeOrdens" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="Empresa">
+          <mxGeometry x="0" y="30" width="280" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="Empresa_div1" value="" style="line;strokeColor=#d6b656;" vertex="1" parent="Empresa">
+          <mxGeometry x="0" y="100" width="280" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="Empresa_methods" value="+ registrarOrdemDeCompra(ordem): void&#xa;+ registrarOrdemDeVenda(ordem): void&#xa;+ atualizarPreco(novoPreco): void&#xa;+ inscrever(observador): void&#xa;+ desinscrever(observador): void&#xa;+ possuiPrecoEstabelecido(): boolean&#xa;+ obterNome(): NomeDaEmpresa" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="Empresa">
+          <mxGeometry x="0" y="110" width="280" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Investidor" value="Investidor" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="420" y="310" width="280" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="Investidor_fields" value="- nome: NomeDoInvestidor&#xa;- carteira: Carteira" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="Investidor">
+          <mxGeometry x="0" y="30" width="280" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Investidor_div1" value="" style="line;strokeColor=#d6b656;" vertex="1" parent="Investidor">
+          <mxGeometry x="0" y="70" width="280" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="Investidor_methods" value="+ receberAcoes(empresa, quantidade): void&#xa;+ deduzirAcoes(empresa, quantidade): void&#xa;+ possuiAcoesSuficientes(empresa, qtd): boolean&#xa;+ getNome(): NomeDoInvestidor&#xa;+ getNomeCompleto(): String&#xa;+ aoAtualizarPreco(empresa, preco): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="Investidor">
+          <mxGeometry x="0" y="80" width="280" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="LivroDeOrdens" value="LivroDeOrdens" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="760" y="310" width="290" height="210" as="geometry" />
+        </mxCell>
+        <mxCell id="LivroDeOrdens_fields" value="- empresa: AlvoDeAtualizacaoDePreco&#xa;- ordensDeCompra: ListaDeOrdens&#xa;- ordensDeVenda: ListaDeOrdens&#xa;- transacoes: ListaDeTransacoes&#xa;- combinador: CombinadorDeOrdens" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="LivroDeOrdens">
+          <mxGeometry x="0" y="30" width="290" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="LivroDeOrdens_div1" value="" style="line;strokeColor=#d79b00;" vertex="1" parent="LivroDeOrdens">
+          <mxGeometry x="0" y="110" width="290" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="LivroDeOrdens_methods" value="+ registrarOrdemDeCompra(ordem): void&#xa;+ registrarOrdemDeVenda(ordem): void&#xa;- processarOrdens(): void&#xa;- executarCombinacao(par): void&#xa;- transferirAcoes(...): void&#xa;- marcarOrdens(...): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="LivroDeOrdens">
+          <mxGeometry x="0" y="120" width="290" height="90" as="geometry" />
+        </mxCell>
+
+        <mxCell id="CombinadorDeOrdens" value="CombinadorDeOrdens" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="310" width="290" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="CombinadorDeOrdens_methods" value="+ encontrarCombinacao(compras: ListaDeOrdens,&#xa;    vendas: ListaDeOrdens): Optional&lt;ParDeOrdens&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="CombinadorDeOrdens">
+          <mxGeometry x="0" y="30" width="290" height="50" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ParDeOrdens" value="ParDeOrdens" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="1110" y="440" width="290" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ParDeOrdens_fields" value="- ordemDeCompra: OrdemDeCompra&#xa;- ordemDeVenda: OrdemDeVenda" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="ParDeOrdens">
+          <mxGeometry x="0" y="30" width="290" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="ParDeOrdens_div1" value="" style="line;strokeColor=#d79b00;" vertex="1" parent="ParDeOrdens">
+          <mxGeometry x="0" y="70" width="290" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="ParDeOrdens_methods" value="+ getOrdemDeCompra(): OrdemDeCompra&#xa;+ getOrdemDeVenda(): OrdemDeVenda" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="ParDeOrdens">
+          <mxGeometry x="0" y="80" width="290" height="20" as="geometry" />
+        </mxCell>
+
+        
+
+        <mxCell id="Ordem" value="«abstract»&#xa;Ordem" style="swimlane;startSize=30;fontStyle=3;fontSize=13;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="760" y="600" width="280" height="220" as="geometry" />
+        </mxCell>
+        <mxCell id="Ordem_fields" value="# investidor: Investidor&#xa;# precoAlvo: PrecoAcao&#xa;# quantidadeRestante: QuantidadeAcao&#xa;# status: StatusOrdem&#xa;# tipoOrdem: TipoOrdem" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="Ordem">
+          <mxGeometry x="0" y="30" width="280" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="Ordem_div1" value="" style="line;strokeColor=#b85450;" vertex="1" parent="Ordem">
+          <mxGeometry x="0" y="110" width="280" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="Ordem_methods" value="+ getInvestidor(): Investidor&#xa;+ getPrecoAlvo(): PrecoAcao&#xa;+ getQuantidadeRestante(): QuantidadeAcao&#xa;+ getDirecao(): TipoOrdem&#xa;+ estaPendente(): boolean&#xa;+ deduzirQuantidade(qtd): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="Ordem">
+          <mxGeometry x="0" y="120" width="280" height="95" as="geometry" />
+        </mxCell>
+
+        <mxCell id="OrdemDeCompra" value="OrdemDeCompra" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="580" y="600" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OrdemDeCompra_ctor" value="+ OrdemDeCompra(investidor,&#xa;    precoAlvo, quantidade)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="OrdemDeCompra">
+          <mxGeometry x="0" y="30" width="160" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="OrdemDeVenda" value="OrdemDeVenda" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1060" y="600" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="OrdemDeVenda_ctor" value="+ OrdemDeVenda(investidor,&#xa;    precoAlvo, quantidade)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="OrdemDeVenda">
+          <mxGeometry x="0" y="30" width="160" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ListaDeOrdens" value="ListaDeOrdens" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#f8cecc;strokeColor=#b85450;" vertex="1" parent="1">
+          <mxGeometry x="1260" y="600" width="290" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeOrdens_fields" value="- ordens: List&lt;Ordem&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="ListaDeOrdens">
+          <mxGeometry x="0" y="30" width="290" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeOrdens_div1" value="" style="line;strokeColor=#b85450;" vertex="1" parent="ListaDeOrdens">
+          <mxGeometry x="0" y="50" width="290" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeOrdens_methods" value="+ adicionar(ordem): void&#xa;+ ordenadosPorPrecoDecrescente(): ListaDeOrdens&#xa;+ encontrarVendaComPrecoAteMáximo(preco):&#xa;    Optional&lt;OrdemDeVenda&gt;&#xa;+ comoLista(): List&lt;Ordem&gt;&#xa;+ estaVazia(): boolean" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="ListaDeOrdens">
+          <mxGeometry x="0" y="60" width="290" height="80" as="geometry" />
+        </mxCell>
+
+        
+
+        <mxCell id="PrecoAcao" value="PrecoAcao" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="80" y="600" width="230" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="PrecoAcao_fields" value="- valor: BigDecimal" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="PrecoAcao">
+          <mxGeometry x="0" y="30" width="230" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="PrecoAcao_div1" value="" style="line;strokeColor=#82b366;" vertex="1" parent="PrecoAcao">
+          <mxGeometry x="0" y="50" width="230" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="PrecoAcao_methods" value="+ eMaiorOuIgualA(outro): boolean&#xa;+ exibir(): String&#xa;+ compareTo(outro): int&#xa;+ equals(obj): boolean&#xa;+ hashCode(): int&#xa;+ toString(): String" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="PrecoAcao">
+          <mxGeometry x="0" y="60" width="230" height="100" as="geometry" />
+        </mxCell>
+
+        <mxCell id="QuantidadeAcao" value="QuantidadeAcao" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="330" y="600" width="230" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="QuantidadeAcao_fields" value="- quantidade: int" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="QuantidadeAcao">
+          <mxGeometry x="0" y="30" width="230" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="QuantidadeAcao_div1" value="" style="line;strokeColor=#82b366;" vertex="1" parent="QuantidadeAcao">
+          <mxGeometry x="0" y="50" width="230" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="QuantidadeAcao_methods" value="+ adicionar(outra): QuantidadeAcao&#xa;+ subtrair(outra): QuantidadeAcao&#xa;+ minimo(outra): QuantidadeAcao&#xa;+ eMaiorQue(outra): boolean&#xa;+ eIgualA(outra): boolean&#xa;+ getQuantidade(): int&#xa;+ equals(obj): boolean" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="QuantidadeAcao">
+          <mxGeometry x="0" y="60" width="230" height="115" as="geometry" />
+        </mxCell>
+
+        <mxCell id="NomeDaEmpresa" value="NomeDaEmpresa" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="80" y="880" width="210" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="NomeDaEmpresa_fields" value="- nome: String" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="NomeDaEmpresa">
+          <mxGeometry x="0" y="30" width="210" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NomeDaEmpresa_div1" value="" style="line;strokeColor=#82b366;" vertex="1" parent="NomeDaEmpresa">
+          <mxGeometry x="0" y="50" width="210" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="NomeDaEmpresa_methods" value="+ getNome(): String&#xa;+ equals(obj): boolean&#xa;+ hashCode(): int" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="NomeDaEmpresa">
+          <mxGeometry x="0" y="60" width="210" height="55" as="geometry" />
+        </mxCell>
+
+        <mxCell id="NomeDoInvestidor" value="NomeDoInvestidor" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="1">
+          <mxGeometry x="310" y="880" width="210" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="NomeDoInvestidor_fields" value="- nome: String" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="NomeDoInvestidor">
+          <mxGeometry x="0" y="30" width="210" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="NomeDoInvestidor_div1" value="" style="line;strokeColor=#82b366;" vertex="1" parent="NomeDoInvestidor">
+          <mxGeometry x="0" y="50" width="210" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="NomeDoInvestidor_methods" value="+ getNome(): String&#xa;+ equals(obj): boolean&#xa;+ hashCode(): int" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="NomeDoInvestidor">
+          <mxGeometry x="0" y="60" width="210" height="55" as="geometry" />
+        </mxCell>
+
+        
+
+        <mxCell id="Carteira" value="Carteira" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="540" y="880" width="270" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="Carteira_fields" value="- acoes: Map&lt;NomeDaEmpresa, QuantidadeAcao&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="Carteira">
+          <mxGeometry x="0" y="30" width="270" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="Carteira_div1" value="" style="line;strokeColor=#9673a6;" vertex="1" parent="Carteira">
+          <mxGeometry x="0" y="50" width="270" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="Carteira_methods" value="+ receberAcoes(empresa, quantidade): void&#xa;+ deduzirAcoes(empresa, quantidade): void&#xa;+ possuiAcoesSuficientes(empresa, qtd): boolean&#xa;+ exibir(proprietario): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="Carteira">
+          <mxGeometry x="0" y="60" width="270" height="80" as="geometry" />
+        </mxCell>
+
+        <mxCell id="Transacao" value="Transacao" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="830" y="880" width="280" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="Transacao_fields" value="- comprador: Investidor&#xa;- vendedor: Investidor&#xa;- empresa: NomeDaEmpresa&#xa;- precoExecutado: PrecoAcao&#xa;- quantidadeExecutada: QuantidadeAcao&#xa;- momento: LocalDateTime" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="Transacao">
+          <mxGeometry x="0" y="30" width="280" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="Transacao_div1" value="" style="line;strokeColor=#9673a6;" vertex="1" parent="Transacao">
+          <mxGeometry x="0" y="120" width="280" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="Transacao_methods" value="+ exibir(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="Transacao">
+          <mxGeometry x="0" y="130" width="280" height="20" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ListaDeTransacoes" value="ListaDeTransacoes" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1130" y="880" width="220" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeTransacoes_fields" value="- transacoes: List&lt;Transacao&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="ListaDeTransacoes">
+          <mxGeometry x="0" y="30" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeTransacoes_div1" value="" style="line;strokeColor=#9673a6;" vertex="1" parent="ListaDeTransacoes">
+          <mxGeometry x="0" y="50" width="220" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeTransacoes_methods" value="+ registrar(transacao): void&#xa;+ getTotal(): int" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="ListaDeTransacoes">
+          <mxGeometry x="0" y="60" width="220" height="35" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ListaDeEmpresas" value="ListaDeEmpresas" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="310" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeEmpresas_fields" value="- empresas: List&lt;Empresa&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="ListaDeEmpresas">
+          <mxGeometry x="0" y="30" width="200" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeEmpresas_div1" value="" style="line;strokeColor=#9673a6;" vertex="1" parent="ListaDeEmpresas">
+          <mxGeometry x="0" y="50" width="200" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeEmpresas_methods" value="+ adicionar(empresa): void&#xa;+ exibirPrecos(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="ListaDeEmpresas">
+          <mxGeometry x="0" y="60" width="200" height="30" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ListaDeInvestidores" value="ListaDeInvestidores" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#e1d5e7;strokeColor=#9673a6;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="430" width="200" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeInvestidores_fields" value="- investidores: List&lt;Investidor&gt;" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="ListaDeInvestidores">
+          <mxGeometry x="0" y="30" width="200" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeInvestidores_div1" value="" style="line;strokeColor=#9673a6;" vertex="1" parent="ListaDeInvestidores">
+          <mxGeometry x="0" y="50" width="200" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="ListaDeInvestidores_methods" value="+ adicionar(investidor): void&#xa;+ exibirCarteiras(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="ListaDeInvestidores">
+          <mxGeometry x="0" y="60" width="200" height="30" as="geometry" />
+        </mxCell>
+
+        
+
+        <mxCell id="LogMercado" value="LogMercado" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="600" width="230" height="180" as="geometry" />
+        </mxCell>
+        <mxCell id="LogMercado_methods" value="+ {static} registroDeOrdemDeCompra(...): void&#xa;+ {static} registroDeOrdemDeVenda(...): void&#xa;+ {static} combinacaoEncontrada(...): void&#xa;+ {static} nenhumaCombinacao(...): void&#xa;+ {static} precoEstabelecido(...): void&#xa;+ {static} precoAtualizado(...): void&#xa;+ {static} notificacaoDePreco(...): void&#xa;+ {static} transacaoExecutada(...): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="LogMercado">
+          <mxGeometry x="0" y="30" width="230" height="148" as="geometry" />
+        </mxCell>
+
+        <mxCell id="FabricaDeDadosMock" value="FabricaDeDadosMock" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="1370" y="820" width="230" height="140" as="geometry" />
+        </mxCell>
+        <mxCell id="FabricaDeDadosMock_methods" value="+ {static} criarPetrobrasSA(): Empresa&#xa;+ {static} criarValeSA(): Empresa&#xa;+ {static} criarAlice(): Investidor&#xa;+ {static} criarBob(): Investidor&#xa;+ {static} criarCarol(): Investidor&#xa;+ {static} criarDave(): Investidor" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="FabricaDeDadosMock">
+          <mxGeometry x="0" y="30" width="230" height="110" as="geometry" />
+        </mxCell>
+
+        <mxCell id="SimulacaoDoMercado" value="SimulacaoDoMercado" style="swimlane;startSize=30;fontStyle=1;fontSize=13;fillColor=#f5f5f5;strokeColor=#666666;" vertex="1" parent="1">
+          <mxGeometry x="1610" y="310" width="240" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="SimulacaoDoMercado_fields" value="- petrobrasSA: Empresa&#xa;- valeSA: Empresa&#xa;- alice / bob / carol / dave: Investidor&#xa;- empresas: ListaDeEmpresas&#xa;- investidores: ListaDeInvestidores" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="SimulacaoDoMercado">
+          <mxGeometry x="0" y="30" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="SimulacaoDoMercado_div1" value="" style="line;strokeColor=#666666;" vertex="1" parent="SimulacaoDoMercado">
+          <mxGeometry x="0" y="110" width="240" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="SimulacaoDoMercado_methods" value="+ executar(): void&#xa;- configurarInscricoes(): void&#xa;- configurarCarteiraInicialDeDave(): void&#xa;- executarPassoUm() ... Seis(): void&#xa;- exibirResultadosFinais(): void" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=top;spacingLeft=8;fontSize=11;" vertex="1" parent="SimulacaoDoMercado">
+          <mxGeometry x="0" y="120" width="240" height="80" as="geometry" />
+        </mxCell>
+
+        
+
+        
+        <mxCell id="rel_empresa_sujeito" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=0;dashed=1;strokeColor=#006EAF;" edge="1" source="Empresa" target="SujeitoDePreco" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_empresa_alvo" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=0;dashed=1;strokeColor=#006EAF;" edge="1" source="Empresa" target="AlvoDeAtualizacaoDePreco" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_investidor_observer" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=0;dashed=1;strokeColor=#006EAF;" edge="1" source="Investidor" target="ObservadorDePreco" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_compra_ordem" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=0;strokeColor=#b85450;" edge="1" source="OrdemDeCompra" target="Ordem" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_venda_ordem" style="edgeStyle=orthogonalEdgeStyle;endArrow=block;endFill=0;strokeColor=#b85450;" edge="1" source="OrdemDeVenda" target="Ordem" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_empresa_livro" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#d6b656;" edge="1" source="Empresa" target="LivroDeOrdens" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_livro_alvo" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d79b00;" edge="1" source="LivroDeOrdens" target="AlvoDeAtualizacaoDePreco" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_livro_combinador" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#d79b00;" edge="1" source="LivroDeOrdens" target="CombinadorDeOrdens" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_livro_lista" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#d79b00;" edge="1" source="LivroDeOrdens" target="ListaDeOrdens" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_livro_transacoes" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#d79b00;" edge="1" source="LivroDeOrdens" target="ListaDeTransacoes" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_combinador_par" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#d79b00;" edge="1" source="CombinadorDeOrdens" target="ParDeOrdens" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_par_compra" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#b85450;" edge="1" source="ParDeOrdens" target="OrdemDeCompra" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_par_venda" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#b85450;" edge="1" source="ParDeOrdens" target="OrdemDeVenda" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_investidor_carteira" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#d6b656;" edge="1" source="Investidor" target="Carteira" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_investidor_nome" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#82b366;" edge="1" source="Investidor" target="NomeDoInvestidor" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_empresa_nome" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#82b366;" edge="1" source="Empresa" target="NomeDaEmpresa" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_ordem_investidor" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#b85450;" edge="1" source="Ordem" target="Investidor" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_ordem_preco" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#b85450;" edge="1" source="Ordem" target="PrecoAcao" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_ordem_qtd" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#b85450;" edge="1" source="Ordem" target="QuantidadeAcao" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_ordem_status" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#36393d;" edge="1" source="Ordem" target="StatusOrdem" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_ordem_tipo" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#36393d;" edge="1" source="Ordem" target="TipoOrdem" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_transacao_empresa" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#9673a6;" edge="1" source="Transacao" target="NomeDaEmpresa" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_transacao_investidor" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#9673a6;" edge="1" source="Transacao" target="Investidor" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_listatransacoes_transacao" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#9673a6;" edge="1" source="ListaDeTransacoes" target="Transacao" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_listaordens_ordem" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#b85450;" edge="1" source="ListaDeOrdens" target="Ordem" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_listaempresas_empresa" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#9673a6;" edge="1" source="ListaDeEmpresas" target="Empresa" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_listainvestidores_investidor" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#9673a6;" edge="1" source="ListaDeInvestidores" target="Investidor" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_sim_fabrica" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#666666;" edge="1" source="SimulacaoDoMercado" target="FabricaDeDadosMock" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_sim_listaempresas" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#666666;" edge="1" source="SimulacaoDoMercado" target="ListaDeEmpresas" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_sim_listainvestidores" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;strokeColor=#666666;" edge="1" source="SimulacaoDoMercado" target="ListaDeInvestidores" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_carteira_nomempresa" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#82b366;" edge="1" source="Carteira" target="NomeDaEmpresa" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        
+        <mxCell id="rel_livro_log" style="edgeStyle=orthogonalEdgeStyle;endArrow=open;dashed=1;strokeColor=#666666;" edge="1" source="LivroDeOrdens" target="LogMercado" parent="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
