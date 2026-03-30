@@ -1,0 +1,271 @@
+@startuml diagrama-classes
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+skinparam linetype ortho
+skinparam ArrowColor #444444
+skinparam ClassBorderColor #444444
+
+skinparam class {
+  BackgroundColor White
+  BorderColor #444444
+}
+
+title Sistema de Casa Inteligente IoT\nPadrões: Adapter + Facade + Strategy
+
+interface Lampada <<interface>> {
+  + ligar() : void
+  + desligar() : void
+}
+
+interface Persiana <<interface>> {
+  + abrir() : void
+  + fechar() : void
+}
+
+interface ArCondicionado <<interface>> {
+  + ligar() : void
+  + desligar() : void
+  + aumentarTemperatura() : void
+  + diminuirTemperatura() : void
+  + definirTemperatura(temperatura : int) : void
+}
+
+interface Modo <<interface>> {
+  + ativar(lampadas : Lampadas, persianas : Persianas, arsCondicionados : ArsCondicionados) : void
+}
+
+class LampadaShoyuMi {
+  + ligar() : void
+  + desligar() : void
+}
+
+class LampadaPhellipes {
+  + setIntensidade(intensidade : int) : void
+}
+
+class PersianaSolarius {
+  + subirPersiana() : void
+  + descerPersiana() : void
+}
+
+class PersianaNatLight {
+  + abrirPalheta() : void
+  + fecharPalheta() : void
+  + subirPalheta() : void
+  + descerPalheta() : void
+}
+
+class ArCondicionadoVentoBaumn {
+  + ligar() : void
+  + desligar() : void
+  + getTemperatura() : int
+  + definirTemperatura(temperatura : int) : void
+}
+
+class ArCondicionadoGellaKaza {
+  + ativar() : void
+  + desativar() : void
+  + getTemperatura() : int
+  + aumentarTemperatura() : void
+  + diminuirTemperatura() : void
+}
+
+class LampadaShoyuMiAdaptador <<final>> {
+  - NOME : String = "Lâmpada ShoyuMi"
+  - lampada : LampadaShoyuMi
+  + LampadaShoyuMiAdaptador(lampada : LampadaShoyuMi)
+  + ligar() : void
+  + desligar() : void
+}
+
+class LampadaPhellipesAdaptador <<final>> {
+  - INTENSIDADE_LIGADA : int = 100
+  - INTENSIDADE_DESLIGADA : int = 0
+  - NOME : String = "Lâmpada Phellipes"
+  - lampada : LampadaPhellipes
+  + LampadaPhellipesAdaptador(lampada : LampadaPhellipes)
+  + ligar() : void
+  + desligar() : void
+}
+
+class PersianaSolariusAdaptador <<final>> {
+  - NOME : String = "Persiana Solarius"
+  - persiana : PersianaSolarius
+  + PersianaSolariusAdaptador(persiana : PersianaSolarius)
+  + abrir() : void
+  + fechar() : void
+}
+
+class PersianaNatLightAdaptador <<final>> {
+  - NOME : String = "Persiana NatLight"
+  - persiana : PersianaNatLight
+  + PersianaNatLightAdaptador(persiana : PersianaNatLight)
+  + abrir() : void
+  + fechar() : void
+  - tentarSubirPalheta() : void
+  - tentarFecharPalheta() : void
+}
+
+class ArCondicionadoVentoBaumnAdaptador <<final>> {
+  - NOME : String = "Ar-condicionado VentoBaumn"
+  - arCondicionado : ArCondicionadoVentoBaumn
+  + ArCondicionadoVentoBaumnAdaptador(arCondicionado : ArCondicionadoVentoBaumn)
+  + ligar() : void
+  + desligar() : void
+  + aumentarTemperatura() : void
+  + diminuirTemperatura() : void
+  + definirTemperatura(temperatura : int) : void
+}
+
+class ArCondicionadoGellaKazaAdaptador <<final>> {
+  - NOME : String = "Ar-condicionado GellaKaza"
+  - arCondicionado : ArCondicionadoGellaKaza
+  + ArCondicionadoGellaKazaAdaptador(arCondicionado : ArCondicionadoGellaKaza)
+  + ligar() : void
+  + desligar() : void
+  + aumentarTemperatura() : void
+  + diminuirTemperatura() : void
+  + definirTemperatura(temperatura : int) : void
+}
+
+class Lampadas {
+  - lampadas : List<Lampada>
+  + Lampadas(lampadas : List<Lampada>)
+  + ligarTodas() : void
+  + desligarTodas() : void
+}
+
+class Persianas {
+  - persianas : List<Persiana>
+  + Persianas(persianas : List<Persiana>)
+  + abrirTodas() : void
+  + fecharTodas() : void
+}
+
+class ArsCondicionados {
+  - ars : List<ArCondicionado>
+  + ArsCondicionados(ars : List<ArCondicionado>)
+  + ligarTodos() : void
+  + desligarTodos() : void
+  + definirTemperaturaEmTodos(temperatura : Temperatura) : void
+}
+
+class Temperatura <<final>> {
+  + {static} MIN : int = 15
+  + {static} MAX : int = 35
+  - valor : int
+  + Temperatura(valor : int)
+  + valor() : int
+  + equals(o : Object) : boolean
+  + hashCode() : int
+  + toString() : String
+}
+
+class ModoTrabalho <<final>> {
+  - {static} TEMPERATURA_TRABALHO_VALOR : int = 25
+  - {static} TEMPERATURA_TRABALHO : Temperatura
+  + ativar(lampadas : Lampadas, persianas : Persianas, arsCondicionados : ArsCondicionados) : void
+}
+
+class ModoFilme <<final>> {
+  - {static} TEMPERATURA_FILME_VALOR : int = 22
+  - {static} TEMPERATURA_FILME : Temperatura
+  + ativar(lampadas : Lampadas, persianas : Persianas, arsCondicionados : ArsCondicionados) : void
+}
+
+class ModoSono <<final>> {
+  + ativar(lampadas : Lampadas, persianas : Persianas, arsCondicionados : ArsCondicionados) : void
+}
+
+class CasaInteligente <<final>> {
+  - lampadas : Lampadas
+  - persianas : Persianas
+  - arsCondicionados : ArsCondicionados
+  + CasaInteligente(lampadas : Lampadas, persianas : Persianas, arsCondicionados : ArsCondicionados)
+  + ativarModo(modo : Modo) : void
+  + ligarLampadas() : void
+  + desligarLampadas() : void
+  + abrirPersianas() : void
+  + fecharPersianas() : void
+  + ligarArsCondicionados() : void
+  + desligarArsCondicionados() : void
+}
+
+class DispositivoNuloException {
+  + DispositivoNuloException(mensagem : String)
+  + DispositivoNuloException(mensagem : String, causa : Throwable)
+}
+
+class FalhaDispositivoException {
+  + FalhaDispositivoException(mensagem : String)
+  + FalhaDispositivoException(mensagem : String, causa : Throwable)
+}
+
+class ModoInvalidoException {
+  + ModoInvalidoException(mensagem : String)
+  + ModoInvalidoException(mensagem : String, causa : Throwable)
+}
+
+class Main {
+  + {static} main(args : String[]) : void
+  - {static} construirCasa() : CasaInteligente
+  - {static} executarModoTrabalho(casa : CasaInteligente) : void
+  - {static} executarModoFilme(casa : CasaInteligente) : void
+  - {static} executarModoSono(casa : CasaInteligente) : void
+  - {static} executarControleIndividual(casa : CasaInteligente) : void
+}
+
+RuntimeException <|-- DispositivoNuloException
+RuntimeException <|-- FalhaDispositivoException
+RuntimeException <|-- ModoInvalidoException
+
+Lampada          <|.. LampadaShoyuMiAdaptador
+Lampada          <|.. LampadaPhellipesAdaptador
+Persiana         <|.. PersianaSolariusAdaptador
+Persiana         <|.. PersianaNatLightAdaptador
+ArCondicionado   <|.. ArCondicionadoVentoBaumnAdaptador
+ArCondicionado   <|.. ArCondicionadoGellaKazaAdaptador
+
+Modo             <|.. ModoTrabalho
+Modo             <|.. ModoFilme
+Modo             <|.. ModoSono
+
+LampadaShoyuMiAdaptador           *-- LampadaShoyuMi
+LampadaPhellipesAdaptador         *-- LampadaPhellipes
+PersianaSolariusAdaptador         *-- PersianaSolarius
+PersianaNatLightAdaptador         *-- PersianaNatLight
+ArCondicionadoVentoBaumnAdaptador *-- ArCondicionadoVentoBaumn
+ArCondicionadoGellaKazaAdaptador  *-- ArCondicionadoGellaKaza
+
+Lampadas         o-- "1..*" Lampada
+Persianas        o-- "1..*" Persiana
+ArsCondicionados o-- "1..*" ArCondicionado
+
+CasaInteligente  *-- Lampadas
+CasaInteligente  *-- Persianas
+CasaInteligente  *-- ArsCondicionados
+
+ModoTrabalho ..> Lampadas
+ModoTrabalho ..> Persianas
+ModoTrabalho ..> ArsCondicionados
+ModoTrabalho ..> Temperatura
+
+ModoFilme    ..> Lampadas
+ModoFilme    ..> Persianas
+ModoFilme    ..> ArsCondicionados
+ModoFilme    ..> Temperatura
+
+ModoSono     ..> Lampadas
+ModoSono     ..> Persianas
+ModoSono     ..> ArsCondicionados
+
+CasaInteligente  ..> Modo
+ArsCondicionados ..> Temperatura
+
+Main ..> CasaInteligente
+Main ..> ModoTrabalho
+Main ..> ModoFilme
+Main ..> ModoSono
+
+@enduml
