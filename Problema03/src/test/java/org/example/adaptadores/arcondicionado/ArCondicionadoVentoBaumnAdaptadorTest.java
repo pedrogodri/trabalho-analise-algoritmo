@@ -1,6 +1,7 @@
 package org.example.adaptadores.arcondicionado;
 
 import br.furb.analise.algoritmos.ArCondicionadoVentoBaumn;
+import org.example.excecoes.FalhaDispositivoException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -39,7 +40,7 @@ class ArCondicionadoVentoBaumnAdaptadorTest {
 
     @Test
     void definirTemperatura_semEstarLigado_deveLancarExcecao() {
-        assertThrows(IllegalArgumentException.class, () -> adaptador.definirTemperatura(20));
+        assertThrows(FalhaDispositivoException.class, () -> adaptador.definirTemperatura(20));
     }
 
     @Test

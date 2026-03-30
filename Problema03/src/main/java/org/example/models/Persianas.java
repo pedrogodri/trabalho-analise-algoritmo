@@ -1,5 +1,6 @@
 package org.example.models;
 
+import org.example.excecoes.DispositivoNuloException;
 import org.example.interfaces.Persiana;
 
 import java.util.List;
@@ -16,14 +17,16 @@ import java.util.List;
  * <p>A lista interna é imutável após a construção ({@link List#copyOf})
  * para garantir integridade do estado.</p>
  */
-public final class Persianas {
+public class Persianas {
 
     private final List<Persiana> persianas;
 
     /**
      * @param persianas lista de persianas a serem gerenciadas; não pode ser nula
+     * @throws DispositivoNuloException se {@code persianas} for nula
      */
     public Persianas(List<Persiana> persianas) {
+        if (persianas == null) throw new DispositivoNuloException("Lista de persianas não pode ser nula.");
         this.persianas = List.copyOf(persianas);
     }
 
@@ -31,13 +34,17 @@ public final class Persianas {
      * Abre todas as persianas da coleção.
      */
     public void abrirTodas() {
+        System.out.println("[Persianas] Abrindo todas as " + persianas.size() + " persiana(s)...");
         persianas.forEach(Persiana::abrir);
+        System.out.println("[Persianas] Todas as persianas foram abertas.");
     }
 
     /**
      * Fecha todas as persianas da coleção.
      */
     public void fecharTodas() {
+        System.out.println("[Persianas] Fechando todas as " + persianas.size() + " persiana(s)...");
         persianas.forEach(Persiana::fechar);
+        System.out.println("[Persianas] Todas as persianas foram fechadas.");
     }
 }

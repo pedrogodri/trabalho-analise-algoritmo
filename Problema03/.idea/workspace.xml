@@ -5,9 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc0d6023-c816-4693-adae-8f3b342be26a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/util/Log.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/arcondicionado/ArCondicionadoGellaKazaAdaptador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/arcondicionado/ArCondicionadoGellaKazaAdaptador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/arcondicionado/ArCondicionadoVentoBaumnAdaptador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/arcondicionado/ArCondicionadoVentoBaumnAdaptador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/lampada/LampadaPhellipesAdaptador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/lampada/LampadaPhellipesAdaptador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/lampada/LampadaShoyuMiAdaptador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/lampada/LampadaShoyuMiAdaptador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/persiana/PersianaNatLightAdaptador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/persiana/PersianaNatLightAdaptador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/persiana/PersianaSolariusAdaptador.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/adaptadores/persiana/PersianaSolariusAdaptador.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/casa/CasaInteligente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/casa/CasaInteligente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/ArsCondicionados.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/ArsCondicionados.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/Lampadas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/Lampadas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/models/Persianas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/models/Persianas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modos/ModoSono.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modos/ModoSono.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/modos/ModoTrabalho.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/modos/ModoTrabalho.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/adaptadores/arcondicionado/ArCondicionadoVentoBaumnAdaptadorTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/adaptadores/arcondicionado/ArCondicionadoVentoBaumnAdaptadorTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/org/example/models/ArsCondicionadosTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/org/example/models/ArsCondicionadosTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +53,9 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="3BMsYkAQirUBRGBmqKavq7c3JpL" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -110,7 +128,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>9</line>
+          <line>33</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

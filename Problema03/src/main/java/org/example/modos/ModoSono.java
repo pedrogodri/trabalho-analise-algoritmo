@@ -27,8 +27,10 @@ public final class ModoSono implements Modo {
      */
     @Override
     public void ativar(Lampadas lampadas, Persianas persianas, ArsCondicionados arsCondicionados) {
+        System.out.println("[ModoSono] Preparando ambiente para descanso...");
         lampadas.desligarTodas();
         persianas.fecharTodas();
         arsCondicionados.desligarTodos();
+        System.out.println("[ModoSono] Ambiente configurado: luzes apagadas, persianas fechadas, ACs desligados.");
     }
 }

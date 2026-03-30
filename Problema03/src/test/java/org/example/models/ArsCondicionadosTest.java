@@ -4,6 +4,8 @@ import br.furb.analise.algoritmos.ArCondicionadoGellaKaza;
 import br.furb.analise.algoritmos.ArCondicionadoVentoBaumn;
 import org.example.adaptadores.arcondicionado.ArCondicionadoGellaKazaAdaptador;
 import org.example.adaptadores.arcondicionado.ArCondicionadoVentoBaumnAdaptador;
+import org.example.excecoes.DispositivoNuloException;
+import org.example.values.Temperatura;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,8 +47,13 @@ class ArsCondicionadosTest {
     @Test
     void definirTemperaturaEmTodos_deveDefinirAMesmaTemperaturaEmTodos() {
         arsCondicionados.ligarTodos();
-        arsCondicionados.definirTemperaturaEmTodos(25);
+        arsCondicionados.definirTemperaturaEmTodos(new Temperatura(25));
         assertEquals(25, ventoBaumnNativo.getTemperatura());
         assertEquals(25, gellaKazaNativa.getTemperatura());
+    }
+
+    @Test
+    void construtor_comListaNula_deveLancarNullPointerException() {
+        assertThrows(DispositivoNuloException.class, () -> new ArsCondicionados(null));
     }
 }

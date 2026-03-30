@@ -1,6 +1,8 @@
 package org.example.adaptadores.lampada;
 
 import br.furb.analise.algoritmos.LampadaPhellipes;
+import org.example.excecoes.DispositivoNuloException;
+import org.example.excecoes.FalhaDispositivoException;
 import org.example.interfaces.Lampada;
 
 /**
@@ -21,29 +23,46 @@ public final class LampadaPhellipesAdaptador implements Lampada {
 
     private static final int INTENSIDADE_LIGADA = 100;
     private static final int INTENSIDADE_DESLIGADA = 0;
+    private static final String NOME = "Lâmpada Phellipes";
 
     private final LampadaPhellipes lampada;
 
     /**
      * @param lampada instância da lâmpada Phellipes fornecida pela biblioteca do fabricante
+     * @throws DispositivoNuloException se {@code lampada} for nula
      */
     public LampadaPhellipesAdaptador(LampadaPhellipes lampada) {
+        if (lampada == null) throw new DispositivoNuloException(NOME + ": dispositivo não pode ser nulo.");
         this.lampada = lampada;
     }
 
     /**
      * Liga a lâmpada definindo a intensidade máxima (100).
+     *
+     * @throws FalhaDispositivoException se o dispositivo falhar ao ajustar intensidade
      */
     @Override
     public void ligar() {
-        lampada.setIntensidade(INTENSIDADE_LIGADA);
+        try {
+            lampada.setIntensidade(INTENSIDADE_LIGADA);
+            System.out.println("[" + NOME + "] Ligada com intensidade máxima (" + INTENSIDADE_LIGADA + ").");
+        } catch (Exception e) {
+            throw new FalhaDispositivoException("[" + NOME + "] Falha ao ligar (setIntensidade=" + INTENSIDADE_LIGADA + "): " + e.getMessage(), e);
+        }
     }
 
     /**
      * Desliga a lâmpada definindo a intensidade zero (0).
+     *
+     * @throws FalhaDispositivoException se o dispositivo falhar ao ajustar intensidade
      */
     @Override
     public void desligar() {
-        lampada.setIntensidade(INTENSIDADE_DESLIGADA);
+        try {
+            lampada.setIntensidade(INTENSIDADE_DESLIGADA);
+            System.out.println("[" + NOME + "] Desligada (intensidade zerada).");
+        } catch (Exception e) {
+            throw new FalhaDispositivoException("[" + NOME + "] Falha ao desligar (setIntensidade=" + INTENSIDADE_DESLIGADA + "): " + e.getMessage(), e);
+        }
     }
 }

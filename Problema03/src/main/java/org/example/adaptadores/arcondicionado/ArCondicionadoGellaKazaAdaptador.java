@@ -1,6 +1,8 @@
 package org.example.adaptadores.arcondicionado;
 
 import br.furb.analise.algoritmos.ArCondicionadoGellaKaza;
+import org.example.excecoes.DispositivoNuloException;
+import org.example.excecoes.FalhaDispositivoException;
 import org.example.interfaces.ArCondicionado;
 
 /**
@@ -28,49 +30,79 @@ import org.example.interfaces.ArCondicionado;
  */
 public final class ArCondicionadoGellaKazaAdaptador implements ArCondicionado {
 
+    private static final String NOME = "Ar-condicionado GellaKaza";
+
     private final ArCondicionadoGellaKaza arCondicionado;
 
     /**
      * @param arCondicionado instância do AC GellaKaza fornecida pela biblioteca do fabricante
+     * @throws DispositivoNuloException se {@code arCondicionado} for nulo
      */
     public ArCondicionadoGellaKazaAdaptador(ArCondicionadoGellaKaza arCondicionado) {
+        if (arCondicionado == null) throw new DispositivoNuloException(NOME + ": dispositivo não pode ser nulo.");
         this.arCondicionado = arCondicionado;
     }
 
     /**
      * Liga o ar-condicionado (chama {@code ativar()} do fabricante).
+     *
+     * @throws FalhaDispositivoException se o dispositivo falhar ao ativar
      */
     @Override
     public void ligar() {
-        arCondicionado.ativar();
+        try {
+            arCondicionado.ativar();
+            System.out.println("[" + NOME + "] Ligado (ativado) com sucesso.");
+        } catch (Exception e) {
+            throw new FalhaDispositivoException("[" + NOME + "] Falha ao ligar (ativar): " + e.getMessage(), e);
+        }
     }
 
     /**
      * Desliga o ar-condicionado (chama {@code desativar()} do fabricante).
+     *
+     * @throws FalhaDispositivoException se o dispositivo falhar ao desativar
      */
     @Override
     public void desligar() {
-        arCondicionado.desativar();
+        try {
+            arCondicionado.desativar();
+            System.out.println("[" + NOME + "] Desligado (desativado) com sucesso.");
+        } catch (Exception e) {
+            throw new FalhaDispositivoException("[" + NOME + "] Falha ao desligar (desativar): " + e.getMessage(), e);
+        }
     }
 
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException se a temperatura já estiver em 35°C
+     * @throws FalhaDispositivoException se a temperatura já estiver em 35°C
      */
     @Override
     public void aumentarTemperatura() {
-        arCondicionado.aumentarTemperatura();
+        try {
+            arCondicionado.aumentarTemperatura();
+            System.out.println("[" + NOME + "] Temperatura aumentada para " + arCondicionado.getTemperatura() + "°C.");
+        } catch (Exception e) {
+            throw new FalhaDispositivoException("[" + NOME + "] Falha ao aumentar temperatura: " + e.getMessage()
+                    + " — temperatura máxima permitida é 35°C.", e);
+        }
     }
 
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException se a temperatura já estiver em 15°C
+     * @throws FalhaDispositivoException se a temperatura já estiver em 15°C
      */
     @Override
     public void diminuirTemperatura() {
-        arCondicionado.diminuirTemperatura();
+        try {
+            arCondicionado.diminuirTemperatura();
+            System.out.println("[" + NOME + "] Temperatura diminuída para " + arCondicionado.getTemperatura() + "°C.");
+        } catch (Exception e) {
+            throw new FalhaDispositivoException("[" + NOME + "] Falha ao diminuir temperatura: " + e.getMessage()
+                    + " — temperatura mínima permitida é 15°C.", e);
+        }
     }
 
     /**
@@ -80,16 +112,24 @@ public final class ArCondicionadoGellaKazaAdaptador implements ArCondicionado {
      * {@code diminuirTemperatura()} repetidamente até atingir a temperatura alvo.
      * Isso é necessário pois o GellaKaza não oferece definição direta de temperatura.</p>
      *
-     * @throws IllegalArgumentException se {@code temperatura} estiver fora de [15, 35],
-     *                                   propagada pelo fabricante ao atingir o limite
+     * @throws FalhaDispositivoException se {@code temperatura} estiver fora de [15, 35]
      */
     @Override
     public void definirTemperatura(int temperatura) {
-        while (arCondicionado.getTemperatura() < temperatura) {
-            arCondicionado.aumentarTemperatura();
-        }
-        while (arCondicionado.getTemperatura() > temperatura) {
-            arCondicionado.diminuirTemperatura();
+        try {
+            int tempAtual = arCondicionado.getTemperatura();
+            System.out.println("[" + NOME + "] Ajustando temperatura de " + tempAtual + "°C para " + temperatura + "°C (iterativo)...");
+            while (arCondicionado.getTemperatura() < temperatura) {
+                arCondicionado.aumentarTemperatura();
+            }
+            while (arCondicionado.getTemperatura() > temperatura) {
+                arCondicionado.diminuirTemperatura();
+            }
+            System.out.println("[" + NOME + "] Temperatura definida para " + temperatura + "°C.");
+        } catch (Exception e) {
+            throw new FalhaDispositivoException(
+                    "[" + NOME + "] Falha ao definir temperatura para " + temperatura + "°C: " + e.getMessage()
+                    + " — temperatura deve estar entre 15°C e 35°C.", e);
         }
     }
 }

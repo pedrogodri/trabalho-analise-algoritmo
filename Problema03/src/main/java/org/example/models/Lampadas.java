@@ -1,5 +1,6 @@
 package org.example.models;
 
+import org.example.excecoes.DispositivoNuloException;
 import org.example.interfaces.Lampada;
 
 import java.util.List;
@@ -16,14 +17,16 @@ import java.util.List;
  * <p>A lista interna é imutável após a construção ({@link List#copyOf})
  * para garantir integridade do estado.</p>
  */
-public final class Lampadas {
+public class Lampadas {
 
     private final List<Lampada> lampadas;
 
     /**
      * @param lampadas lista de lâmpadas a serem gerenciadas; não pode ser nula
+     * @throws DispositivoNuloException se {@code lampadas} for nula
      */
     public Lampadas(List<Lampada> lampadas) {
+        if (lampadas == null) throw new DispositivoNuloException("Lista de lâmpadas não pode ser nula.");
         this.lampadas = List.copyOf(lampadas);
     }
 
@@ -31,13 +34,17 @@ public final class Lampadas {
      * Liga todas as lâmpadas da coleção.
      */
     public void ligarTodas() {
+        System.out.println("[Lampadas] Ligando todas as " + lampadas.size() + " lâmpada(s)...");
         lampadas.forEach(Lampada::ligar);
+        System.out.println("[Lampadas] Todas as lâmpadas foram ligadas.");
     }
 
     /**
      * Desliga todas as lâmpadas da coleção.
      */
     public void desligarTodas() {
+        System.out.println("[Lampadas] Desligando todas as " + lampadas.size() + " lâmpada(s)...");
         lampadas.forEach(Lampada::desligar);
+        System.out.println("[Lampadas] Todas as lâmpadas foram desligadas.");
     }
 }
