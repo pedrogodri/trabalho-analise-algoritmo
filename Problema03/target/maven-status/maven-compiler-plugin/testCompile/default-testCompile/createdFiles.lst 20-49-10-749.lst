@@ -1,0 +1,14 @@
+org/example/casa/CasaInteligenteTest.class
+org/example/adaptadores/arcondicionado/ArCondicionadoGellaKazaAdaptadorTest.class
+org/example/modos/ModoTrabalhoTest.class
+org/example/models/ArsCondicionadosTest.class
+org/example/models/PersianasTest.class
+org/example/modos/ModoSonoTest.class
+org/example/values/TemperaturaTest.class
+org/example/adaptadores/persiana/PersianaNatLightAdaptadorTest.class
+org/example/models/LampadasTest.class
+org/example/adaptadores/lampada/LampadaShoyuMiAdaptadorTest.class
+org/example/modos/ModoFilmeTest.class
+org/example/adaptadores/arcondicionado/ArCondicionadoVentoBaumnAdaptadorTest.class
+org/example/adaptadores/persiana/PersianaSolariusAdaptadorTest.class
+org/example/adaptadores/lampada/LampadaPhellipesAdaptadorTest.class

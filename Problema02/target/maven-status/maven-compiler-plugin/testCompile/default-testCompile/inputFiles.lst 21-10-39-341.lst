@@ -1,0 +1,11 @@
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/acao/PrecoAcaoTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/acao/QuantidadeAcaoTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/empresa/EmpresaTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/empresa/NomeDaEmpresaTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/investidor/CarteiraTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/investidor/InvestidorTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/ordem/CombinadorDeOrdensTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/ordem/ListaDeOrdensTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/ordem/LivroDeOrdensTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/ordem/OrdemTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema02/src/test/java/org/example/dominio/transacao/ListaDeTransacoesTest.java

@@ -1,0 +1,6 @@
+org/example/Main.class
+org/example/values/Temperatura.class
+org/example/excecoes/ModoInvalidoException.class
+org/example/excecoes/DispositivoNuloException.class
+org/example/excecoes/FalhaDispositivoException.class
+org/example/modos/ModoFilme.class

@@ -1,0 +1,16 @@
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/exceptions/DadoInvalidoExceptionTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/exceptions/EntregaNaoDisponivelExceptionTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/implementation/entrega/PacEntregaTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/implementation/entrega/RetiradaLocalEntregaTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/implementation/entrega/SedexEntregaTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/model/EnderecoEntregaTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/model/ItemPedidoTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/model/PedidoTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/model/ProdutoTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/model/vo/CepTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/model/vo/EstadoTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/model/vo/NomeProdutoTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/model/vo/PesoEmKgTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/model/vo/QuantidadeTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/model/vo/ValorMonetarioTest.java
+/Users/pedrogodri/dev/trabalho-analise-algoritmo/Problema01/src/test/java/org/example/util/ValidacaoTest.java

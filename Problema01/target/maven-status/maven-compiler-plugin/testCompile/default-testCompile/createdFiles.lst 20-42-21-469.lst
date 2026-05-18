@@ -1,0 +1,16 @@
+org/example/exceptions/EntregaNaoDisponivelExceptionTest.class
+org/example/model/vo/ValorMonetarioTest.class
+org/example/model/PedidoTest.class
+org/example/model/EnderecoEntregaTest.class
+org/example/model/vo/CepTest.class
+org/example/implementation/entrega/RetiradaLocalEntregaTest.class
+org/example/model/vo/NomeProdutoTest.class
+org/example/model/vo/EstadoTest.class
+org/example/model/vo/QuantidadeTest.class
+org/example/model/vo/PesoEmKgTest.class
+org/example/model/ItemPedidoTest.class
+org/example/implementation/entrega/SedexEntregaTest.class
+org/example/util/ValidacaoTest.class
+org/example/model/ProdutoTest.class
+org/example/exceptions/DadoInvalidoExceptionTest.class
+org/example/implementation/entrega/PacEntregaTest.class

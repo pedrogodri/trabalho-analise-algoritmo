@@ -1,0 +1,12 @@
+org/example/dominio/ordem/LivroDeOrdensTest.class
+org/example/dominio/ordem/LivroDeOrdensTest$FakeEmpresa.class
+org/example/dominio/ordem/CombinadorDeOrdensTest.class
+org/example/dominio/investidor/InvestidorTest.class
+org/example/dominio/acao/QuantidadeAcaoTest.class
+org/example/dominio/transacao/ListaDeTransacoesTest.class
+org/example/dominio/empresa/EmpresaTest.class
+org/example/dominio/empresa/NomeDaEmpresaTest.class
+org/example/dominio/ordem/OrdemTest.class
+org/example/dominio/ordem/ListaDeOrdensTest.class
+org/example/dominio/acao/PrecoAcaoTest.class
+org/example/dominio/investidor/CarteiraTest.class
