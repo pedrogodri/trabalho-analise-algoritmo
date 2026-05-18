@@ -1,0 +1,5 @@
+#!/bin/sh
+# Script wrapper que garante uso do Java 25 (Homebrew) para este projeto.
+export JAVA_HOME=/opt/homebrew/Cellar/openjdk/25.0.2/libexec/openjdk.jdk/Contents/Home
+export PATH="$JAVA_HOME/bin:$PATH"
+exec mvn "$@"
